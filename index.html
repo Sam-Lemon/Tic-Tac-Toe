@@ -1,36 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tic-Tac-Toe</title>
-    <link rel="stylesheet" href="./style.css">
-    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="stylesheet"
+      href="node_modules/bootstrap/dist/css/bootstrap.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Slabo+27px&family=Space+Grotesk:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-</head>
-<body class="main">
+  </head>
+  <body class="main space-grotesk-ttt">
+    <h1>Tic-Tac-Toe</h1>
+    <button id="start-game">Start Game</button>
+    <br />
+    <h3 id="new-game-text"></h3>
+    <br />
 
-<h1>Tic-Tac-Toe</h1>
-<button class="btn btn-light" id="start-game">Start Game</button>
-<br>
-<h3 id="new-game-text"></h3>
-<br>
-
-<div class="game-board">
-    <div class="box" id="a"></div>     
-    <div class="box" id="b"></div>
-    <div class="box" id="c"></div>
-    <div class="box" id="d"></div>
-    <div class="box" id="e"></div>
-    <div class="box" id="f"></div>
-    <div class="box" id="g"></div>
-    <div class="box" id="h"></div>
-    <div class="box" id="i"></div>
-</div>
-    <br>
+    <div class="game-board">
+      <div class="box" id="a"></div>
+      <div class="box" id="b"></div>
+      <div class="box" id="c"></div>
+      <div class="box" id="d"></div>
+      <div class="box" id="e"></div>
+      <div class="box" id="f"></div>
+      <div class="box" id="g"></div>
+      <div class="box" id="h"></div>
+      <div class="box" id="i"></div>
+    </div>
+    <br />
 
     <script src="node_modules/jquery/dist/jquery.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

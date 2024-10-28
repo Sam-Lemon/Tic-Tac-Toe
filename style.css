@@ -1,52 +1,73 @@
+
+.space-grotesk-ttt {
+  font-family: "Space Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 40px;
+}
+
 .main {
-    background-color: rgb(200, 157, 240);
+  background-color: rgb(200, 157, 240);
 }
 
 .game-board {
-width: 625px;
-height: 625px;
-margin: auto;
-border: 4px groove black;
-background-color: darkcyan;
-color: black;
-cursor: pointer;
-display: grid;
-grid-template-areas: 
+  width: 625px;
+  height: 625px;
+  margin: auto;
+  border: 4px groove black;
+  background-color: darkcyan;
+  color: black;
+  cursor: pointer;
+  display: grid;
+  grid-template-areas:
     "a b c"
     "d e f"
     "g h i";
 }
 
 h1 {
-display: flex;
-justify-content: center;
+  text-align: center;
+}
+
+h3 {
+  text-align: center;
 }
 
 #start-game {
-font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-display: grid;
-margin: auto;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  display: grid;
+  margin: auto;
+  border: 2px solid #995bd2;
+  border-radius: 5px;
+  background-color: #e3d1f4;
+  color: #593977;
 }
 
-#new-game-text {
-display: flex;
-justify-content: center;
+#start-game:hover {
+  background-color: #995bd2;
+  border-color: #e3d1f4;
+  color: #e3d1f4;
 }
 
 .box {
-background-color: cyan;
-border: 3px solid black;
-width: 200px;
-height: 200px;
-display: flex;
-justify-content: center;
-align-items: center;
-margin: auto;
+  background-color: cyan;
+  border: 3px solid black;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
 }
 
 .winning-combination {
-background-color: rgb(109, 233, 105);
-/* background-color: rgb(244, 121, 203); */
-position: relative;
+  background-color: rgb(109, 233, 105);
+  /* background-color: rgb(244, 121, 203); */
+  position: relative;
 }
-
