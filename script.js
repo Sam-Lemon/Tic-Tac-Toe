@@ -6,6 +6,8 @@ let playerOne = "Player One";
 let playerTwo = "Player Two";
 let playerOneMark = "X";
 let playerTwoMark = "O";
+// let playerOneMark = "./images/pinkAlienCharacter.png"; //mungfali.com
+// let playerTwoMark = "./images/greenAlienCharacter.png"; //i.pinimg.com
 let currentPlayer = playerOne;
 
 let startGame = document.getElementById("start-game");
@@ -40,6 +42,7 @@ function playRound() {
         if (inRound && box.innerHTML === "") {
           box.innerHTML =
             currentPlayer === playerOne ? playerOneMark : playerTwoMark;
+            // currentPlayer === playerOne ? `<img src="${playerOneMark}" alt="Player One" />` : `<img src="${playerTwoMark}" alt="Player Two" />`;
           checkWinner(
             currentPlayer === playerOne ? playerOneMark : playerTwoMark
           );
