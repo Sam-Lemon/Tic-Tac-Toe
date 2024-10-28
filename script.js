@@ -95,14 +95,14 @@ function launchFireworks() {
       clearInterval(interval);
     }
     confetti({
-      particleCount: 100,
+      particleCount: 400,
       angle: Math.random() * 360,
-      spread: 70,
+      spread: 80,
       origin: {
         x: Math.random(),
         y: Math.random() - 0.2 //Random Y to keep fireworks mostly above mid screen
       }
     });
-  }, 250) //Interval between fireworks bursts
+  }, 200) //Interval between fireworks bursts
 }
 
