@@ -81,5 +81,28 @@ function checkWinner(mark) {
  if (isWinner) {
     gameTextDiv.innerHTML = `${mark === "X" ? playerOne : playerTwo} is the winner!`;
     inRound = false; //Stops the game if there's a winner
+    launchFireworks();
  }
 }
+
+function launchFireworks() {
+  const duration = 2 * 1000; //Firework duration in milliseconds
+  const end = Date.now() + duration;
+
+  //Generate random fireworks over the duration
+  const interval = setInterval(function() {
+    if (Date.now() > end) {
+      clearInterval(interval);
+    }
+    confetti({
+      particleCount: 100,
+      angle: Math.random() * 360,
+      spread: 70,
+      origin: {
+        x: Math.random(),
+        y: Math.random() - 0.2 //Random Y to keep fireworks mostly above mid screen
+      }
+    });
+  }, 250) //Interval between fireworks bursts
+}
+
