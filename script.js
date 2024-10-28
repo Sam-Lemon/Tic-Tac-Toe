@@ -102,10 +102,14 @@ function launchFireworks() {
       angle: Math.random() * 360,
       spread: 80,
       origin: {
-        x: Math.random(),
-        y: Math.random() - 0.2 //Random Y to keep fireworks mostly above mid screen
+        x: 0.5,
+        y: Math.random() * 0.6 //Random Y to keep fireworks mostly above mid screen
       }
     });
   }, 200) //Interval between fireworks bursts
+
+  setTimeout(() => {
+    gameTextDiv.innerHTML = "Game Over! Click 'Start Game' to play again.";
+  }, duration);
 }
 
