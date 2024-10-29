@@ -9,6 +9,7 @@ let playerTwoMark = "O";
 // let playerOneMark = "./images/pinkAlienCharacter.png"; //mungfali.com
 // let playerTwoMark = "./images/greenAlienCharacter.png"; //i.pinimg.com
 let currentPlayer = playerOne;
+let moveCount = 0;
 
 let startGame = document.getElementById("start-game");
 
@@ -22,6 +23,7 @@ startGame.addEventListener("click", () => {
   currentPlayer = playerOne; //making the first player playerOne
   gameTextDiv.innerHTML =
     "Starting a new game. Player One, make your first play.";
+    moveCount = 0;
   playRound();
 });
 
@@ -42,6 +44,7 @@ function playRound() {
         if (inRound && box.innerHTML === "") {
           box.innerHTML =
             currentPlayer === playerOne ? playerOneMark : playerTwoMark;
+            moveCount++; //Increments move count with each click
             // currentPlayer === playerOne ? `<img src="${playerOneMark}" alt="Player One" />` : `<img src="${playerTwoMark}" alt="Player Two" />`;
           checkWinner(
             currentPlayer === playerOne ? playerOneMark : playerTwoMark
@@ -53,6 +56,11 @@ function playRound() {
             }, make your play.`;
 
             switchPlayer(); //Switches to next player after each click
+          }
+
+          if (moveCount === 9 && inRound) {
+            gameTextDiv.innerHTML = "It's a draw! Press 'Start Game' to restart game.";
+            inRound = false;
           }
         }
       },
@@ -98,9 +106,9 @@ function launchFireworks() {
       clearInterval(interval);
     }
     confetti({
-      particleCount: 400,
+      particleCount: 300,
       angle: Math.random() * 360,
-      spread: 80,
+      spread: 70,
       origin: {
         x: 0.5,
         y: Math.random() * 0.6 //Random Y to keep fireworks mostly above mid screen
