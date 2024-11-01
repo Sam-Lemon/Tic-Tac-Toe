@@ -10,7 +10,7 @@ body {
   box-sizing: border-box;
   margin: 0;
   padding: 40px;
-  background-color: #c89df0;
+  background-color: #c89df0 !important; /*Used !important to override the background color set by bootstrap*/
 }
 
 h1, h3 {
@@ -59,8 +59,16 @@ h1, h3 {
   font-size: 3.5rem;
 }
 
+img {
+  width: 100px;
+}
+
 .winning-combination {
   background-color: rgb(109, 233, 105);
   /* background-color: rgb(244, 121, 203); */
   position: relative;
 }
+
+
+
+

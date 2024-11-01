@@ -4,10 +4,10 @@ let inRound = false; //initial status is not in a round
 
 let playerOne = "Player One";
 let playerTwo = "Player Two";
-let playerOneMark = "X";
-let playerTwoMark = "O";
-// let playerOneMark = "./images/pinkAlienCharacter.png"; //mungfali.com
-// let playerTwoMark = "./images/greenAlienCharacter.png"; //i.pinimg.com
+// let playerOneMark = "X";
+// let playerTwoMark = "O";
+let playerOneMark = new URL("./images/pinkAlienCharacter.png", window.location.href).href; //mungfali.com
+let playerTwoMark = new URL("./images/greenAlienCharacter.png", window.location.href).href; //i.pinimg.com
 let currentPlayer = playerOne;
 let moveCount = 0;
 
@@ -23,7 +23,8 @@ startGame.addEventListener("click", () => {
   currentPlayer = playerOne; //making the first player playerOne
   gameTextDiv.innerHTML =
     "Starting a new game. Player One, make your first play.";
-    moveCount = 0;
+  startGame.textContent = "Reset Game"; //Toggle button text
+  moveCount = 0;
   playRound();
 });
 
@@ -37,15 +38,18 @@ function switchPlayer() {
 // console.log("After switching, the current player is: " + currentPlayer);
 
 function playRound() {
-  Array.from(boxes).forEach((box) => {
+  boxes.forEach((box) => {
     box.addEventListener(
       "click",
       function handleBoxClick() {
         if (inRound && box.innerHTML === "") {
           box.innerHTML =
-            currentPlayer === playerOne ? playerOneMark : playerTwoMark;
-            moveCount++; //Increments move count with each click
-            // currentPlayer === playerOne ? `<img src="${playerOneMark}" alt="Player One" />` : `<img src="${playerTwoMark}" alt="Player Two" />`;
+            // currentPlayer === playerOne ? playerOneMark : playerTwoMark;
+            currentPlayer === playerOne
+              ? `<img src="${playerOneMark}" alt="Player One" />`
+              : `<img src="${playerTwoMark}" alt="Player Two" />`;
+          moveCount++; //Increments move count with each click
+
           checkWinner(
             currentPlayer === playerOne ? playerOneMark : playerTwoMark
           );
@@ -59,7 +63,7 @@ function playRound() {
           }
 
           if (moveCount === 9 && inRound) {
-            gameTextDiv.innerHTML = "It's a draw! Press 'Start Game' to restart game.";
+            gameTextDiv.innerHTML = "It's a draw!";
             inRound = false;
           }
         }
@@ -81,19 +85,28 @@ function checkWinner(mark) {
     ["c", "e", "g"], //right to left diagonal
   ];
 
- const isWinner = winningCombinations.some(combination => {
-    const isMatch = combination.every(id => document.getElementById(id).innerHTML === mark);
+  const isWinner = winningCombinations.some((combination) => {
+    const isMatch = combination.every((id) => {
+      const box = document.getElementById(id);
+      const img = box.querySelector("img"); //Selects image element within box
+      return img && img.src === mark; //Checks if img exsists, and its src matches the player's mark
+    });
+
     if (isMatch) {
-        combination.forEach(id => document.getElementById(id).classList.add('winning-combination')); //Adding class for styling purposes
+      combination.forEach((id) =>
+        document.getElementById(id).classList.add("winning-combination")
+      ); //Adding class for styling purposes
     }
     return isMatch;
- });
+  });
 
- if (isWinner) {
-    gameTextDiv.innerHTML = `${mark === "X" ? playerOne : playerTwo} is the winner!`;
+  if (isWinner) {
+    gameTextDiv.innerHTML = `${
+      mark === playerOneMark ? playerOne : playerTwo
+    } is the winner!`;
     inRound = false; //Stops the game if there's a winner
     launchFireworks();
- }
+  }
 }
 
 function launchFireworks() {
@@ -101,7 +114,7 @@ function launchFireworks() {
   const end = Date.now() + duration;
 
   //Generate random fireworks over the duration
-  const interval = setInterval(function() {
+  const interval = setInterval(function () {
     if (Date.now() > end) {
       clearInterval(interval);
     }
@@ -111,13 +124,12 @@ function launchFireworks() {
       spread: 70,
       origin: {
         x: 0.5,
-        y: Math.random() * 0.6 //Random Y to keep fireworks mostly above mid screen
-      }
+        y: Math.random() * 0.6, //Random Y to keep fireworks mostly above mid screen
+      },
     });
-  }, 200) //Interval between fireworks bursts
+  }, 200); //Interval between fireworks bursts
 
   setTimeout(() => {
-    gameTextDiv.innerHTML = "Game Over! Click 'Start Game' to play again.";
+    gameTextDiv.innerHTML = "Game Over!";
   }, duration);
 }
-
