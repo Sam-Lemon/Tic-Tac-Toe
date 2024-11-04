@@ -46,8 +46,8 @@ function playRound() {
           box.innerHTML =
             // currentPlayer === playerOne ? playerOneMark : playerTwoMark;
             currentPlayer === playerOne
-              ? `<img src="${playerOneMark}" alt="Player One" class="animate__animated animate__fadeIn" />`
-              : `<img src="${playerTwoMark}" alt="Player Two" class="animate__animated animate__fadeIn" />`;
+              ? `<img src="${playerOneMark}" alt="Player One" />`
+              : `<img src="${playerTwoMark}" alt="Player Two" />`;
           moveCount++; //Increments move count with each click
 
           checkWinner(

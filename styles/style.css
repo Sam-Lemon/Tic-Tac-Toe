@@ -1,0 +1,29 @@
+
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 40px;
+} 
+
+nav {
+  display: flex;
+  justify-content: right;
+  overflow: hidden;
+}
+
+nav a {
+  float: right;
+  text-decoration: none;
+  color: black;
+  border: 2px solid black;
+  margin: 5px;
+  padding: 3px 5px;
+}
+
+nav a:hover {
+  background-color: #e3d1f4;
+}
+
+
+
+

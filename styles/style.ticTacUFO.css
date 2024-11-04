@@ -1,4 +1,3 @@
-
 .space-grotesk-ttt {
   font-family: "Space Grotesk", sans-serif;
   font-optical-sizing: auto;
@@ -6,14 +5,12 @@
   font-style: normal;
 }
 
-body {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 40px;
-  background-color: #c89df0 !important; /*Used !important to override the background color set by bootstrap*/
+.ttt-page {
+  background-color: #c89df0;
 }
 
-h1, h3 {
+h1,
+h3 {
   text-align: center;
 }
 
@@ -68,7 +65,3 @@ img {
   /* background-color: rgb(244, 121, 203); */
   position: relative;
 }
-
-
-
-
