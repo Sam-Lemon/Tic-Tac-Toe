@@ -17,10 +17,13 @@ h3 {
 #start-game {
   display: grid;
   margin: auto;
+  padding: 5px 10px;
   border: 2px solid #995bd2;
   border-radius: 5px;
   background-color: #e3d1f4;
   color: #593977;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
 #start-game:hover {
@@ -30,34 +33,49 @@ h3 {
 }
 
 .game-board {
-  width: 490px;
-  height: 490px;
+  width: 90vw; 
+  max-width: 500px; 
+  aspect-ratio: 1; 
   margin: auto;
   border: 4px groove black;
   background-color: darkcyan;
   color: black;
-  cursor: pointer;
   display: grid;
   grid-template-areas:
     "a b c"
     "d e f"
     "g h i";
+  gap: 5px;
+  padding: 5px;
 }
 
 .box {
   background-color: cyan;
   border: 3px solid black;
-  width: 150px;
-  height: 150px;
+  width: 100%; /* Adapts to parent size */
+  aspect-ratio: 1; /* Keeps box square */
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 5px;
-  font-size: 3.5rem;
+  font-size: 8vw; /* Responsive font size */
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .box {
+    font-size: 10vw;
+  }
+  img {
+    width: 70%;
+    max-width: 80px;
+  }
 }
 
 img {
-  width: 100px;
+  width: 80%; /* Adjusts proportionately to box */
+  max-width: 100px; /* Limits size on larger screens */
+  max-height: 100%;
+  object-fit: contain;
 }
 
 .winning-combination {

@@ -2,20 +2,31 @@
 body {
   box-sizing: border-box;
   margin: 0;
-  padding: 40px;
+  padding: 0;
 } 
+
+.wrapper {
+  padding: 0 5vw;
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 2vw;
+  }
+}
 
 nav {
   display: flex;
   justify-content: right;
   overflow: hidden;
+  font-weight: 500;
 }
 
 nav a {
   float: right;
   text-decoration: none;
-  color: black;
-  border: 2px solid black;
+  color: #593977;
+  border-radius: 5px;
   margin: 5px;
   padding: 3px 5px;
 }
