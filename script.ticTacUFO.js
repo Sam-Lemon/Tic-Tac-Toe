@@ -133,3 +133,36 @@ function launchFireworks() {
     gameTextDiv.innerHTML = "Game Over!";
   }, duration);
 }
+
+const ufoContainer = document.querySelector('.ufo-container');
+
+function createUFO() {
+  const ufo =  document.createElement('div');
+  ufo.classList.add('ufo');
+
+//Randomize starting position on Y axis
+const startY = Math.random() * window.innerHeight * 0.8; //Between 0 and 80% of the viewport height
+ufo.style.top = `${startY}px`;
+
+//Add animation with random speed
+const flyDuration = Math.random() * 3 + 5; //Between 5 and 8 seconds
+ufo.style.animation = `flyby ${flyDuration}s linear`;
+
+//Remove the UFO after animation completes
+ufo.addEventListener('animationend', () => {
+  ufoContainer.removeChild(ufo);
+});
+
+//Append UFO to the container
+ufoContainer.appendChild(ufo);
+}
+
+//Function to create UFOs at random intervals
+function startUFOFlybys() {
+  setInterval(createUFO, Math.random() * 2000 + 3000);
+}
+
+startUFOFlybys();
+
+
+
