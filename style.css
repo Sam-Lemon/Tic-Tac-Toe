@@ -1,3 +1,40 @@
+
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+} 
+
+.wrapper {
+  padding: 0 5vw;
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 2vw;
+  }
+}
+
+nav {
+  display: flex;
+  justify-content: right;
+  overflow: hidden;
+  font-weight: 500;
+}
+
+nav a {
+  float: right;
+  text-decoration: none;
+  color: #593977;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 3px 5px;
+}
+
+nav a:hover {
+  background-color: #e3d1f4;
+}
+
 .space-grotesk-ttt {
   font-family: "Space Grotesk", sans-serif;
   font-optical-sizing: auto;
@@ -46,14 +83,14 @@ h3 {
     "d e f"
     "g h i";
   gap: 5px;
-  padding: 5px;
+  padding: 10px;
 }
 
 .box {
   background-color: cyan;
   border: 3px solid black;
   width: 100%; /* Adapts to parent size */
-  aspect-ratio: 1; /* Keeps box square */
+  aspect-ratio: 1; /*Keeps box square*/
   display: flex;
   justify-content: center;
   align-items: center;
@@ -117,3 +154,6 @@ img {
     opacity: 0;
   }
 }
+
+
+
