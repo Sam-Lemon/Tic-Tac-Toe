@@ -6,8 +6,8 @@ let playerOne = "Player One";
 let playerTwo = "Player Two";
 // let playerOneMark = "X";
 // let playerTwoMark = "O";
-let playerOneMark = new URL("./images/pinkAlienCharacter.png", window.location.href).href; //mungfali.com
-let playerTwoMark = new URL("./images/greenAlienCharacter.png", window.location.href).href; //i.pinimg.com
+let playerOneMark = new URL("../images/pinkAlienCharacter.png", window.location.href).href; //mungfali.com
+let playerTwoMark = new URL("../images/greenAlienCharacter.png", window.location.href).href; //i.pinimg.com
 let currentPlayer = playerOne;
 let moveCount = 0;
 
