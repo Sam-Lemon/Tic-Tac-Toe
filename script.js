@@ -4,8 +4,6 @@ let inRound = false; //initial status is not in a round
 
 let playerOne = "Player One";
 let playerTwo = "Player Two";
-// let playerOneMark = "X";
-// let playerTwoMark = "O";
 let playerOneMark = new URL("./images/pinkAlienCharacter.png", window.location.href).href; //mungfali.com
 let playerTwoMark = new URL("./images/greenAlienCharacter.png", window.location.href).href; //i.pinimg.com
 let currentPlayer = playerOne;
@@ -14,64 +12,54 @@ let moveCount = 0;
 let startGame = document.getElementById("start-game");
 
 startGame.addEventListener("click", () => {
-  Array.from(boxes).forEach((box) => {
-    box.innerHTML = ""; //Clears each box
-    box.classList.remove("winning-combination"); //Removes the win styling
-  });
-
-  inRound = true; //Starts a new game
-  currentPlayer = playerOne; //making the first player playerOne
-  gameTextDiv.innerHTML =
-    "Starting a new game. Player One, make your first play.";
-  startGame.textContent = "Reset Game"; //Toggle button text
-  moveCount = 0;
+  resetGame();
   playRound();
 });
 
-console.log("The current player is: " + currentPlayer);
+function initializeGame() {
+  boxes.forEach((box) => {
+    box.addEventListener("click", function handleBoxClick() {
+      if (inRound && box.innerHTML === "") {
+        box.innerHTML = currentPlayer === playerOne
+        ? `<img src="${playerOneMark}" alt="Player One's mark">`
+        : `<img src="${playerTwoMark}" alt="Player Two's mark">`;
+
+
+        moveCount++;
+        checkWinner(currentPlayer === playerOne ? playerOneMark : playerTwoMark);
+
+        if (inRound) {
+          switchPlayer();
+          gameTextDiv.innerHTML = `${currentPlayer}'s turn`;
+        }
+
+        if (moveCount === 9 && inRound) {
+          gameTextDiv.innerHTML = "It's a tie!";
+          inRound = false;
+        }
+      }
+    });
+  });
+}
+
+function resetGame() {
+  Array.from(boxes).forEach((box) => {
+    box.innerHTML = "";
+    box.classList.remove("winning-combination");
+  });
+
+  inRound = true;
+  currentPlayer = playerOne;
+  gameTextDiv.innerHTML = "Starting a new game. Player One, make your play.";
+  startGame.textContent = "Reset Game";
+  moveCount = 0;
+}
 
 function switchPlayer() {
   currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
 }
 
-// switchPlayer()
-// console.log("After switching, the current player is: " + currentPlayer);
-
-function playRound() {
-  boxes.forEach((box) => {
-    box.addEventListener(
-      "click",
-      function handleBoxClick() {
-        if (inRound && box.innerHTML === "") {
-          box.innerHTML =
-            // currentPlayer === playerOne ? playerOneMark : playerTwoMark;
-            currentPlayer === playerOne
-              ? `<img src="${playerOneMark}" alt="Player One" />`
-              : `<img src="${playerTwoMark}" alt="Player Two" />`;
-          moveCount++; //Increments move count with each click
-
-          checkWinner(
-            currentPlayer === playerOne ? playerOneMark : playerTwoMark
-          );
-
-          if (inRound) {
-            gameTextDiv.innerHTML = `${currentPlayer}'s turn is over. ${
-              currentPlayer === playerOne ? playerTwo : playerOne
-            }, make your play.`;
-
-            switchPlayer(); //Switches to next player after each click
-          }
-
-          if (moveCount === 9 && inRound) {
-            gameTextDiv.innerHTML = "It's a draw!";
-            inRound = false;
-          }
-        }
-      },
-      { once: true }
-    ); //Each box only gets clicked once per game
-  });
-}
+initializeGame();
 
 function checkWinner(mark) {
   const winningCombinations = [
@@ -89,24 +77,21 @@ function checkWinner(mark) {
     const isMatch = combination.every((id) => {
       const box = document.getElementById(id);
       const img = box.querySelector("img"); //Selects image element within box
-      return img && img.src === mark; //Checks if img exsists, and its src matches the player's mark
+      return img && img.src === mark; //Checks if img exists, and its src matches the player's mark
     });
 
     if (isMatch) {
       combination.forEach((id) =>
         document.getElementById(id).classList.add("winning-combination")
       ); //Adding class for styling purposes
+
+    gameTextDiv.innerHTML = `${mark === playerOneMark ? playerOne : playerTwo} is the winner!`;
+    inRound = false;
+    launchFireworks();
     }
+
     return isMatch;
   });
-
-  if (isWinner) {
-    gameTextDiv.innerHTML = `${
-      mark === playerOneMark ? playerOne : playerTwo
-    } is the winner!`;
-    inRound = false; //Stops the game if there's a winner
-    launchFireworks();
-  }
 }
 
 function launchFireworks() {
@@ -114,7 +99,7 @@ function launchFireworks() {
   const end = Date.now() + duration;
 
   //Generate random fireworks over the duration
-  const interval = setInterval(function () {
+  const interval = setInterval(function() {
     if (Date.now() > end) {
       clearInterval(interval);
     }
@@ -134,35 +119,37 @@ function launchFireworks() {
   }, duration);
 }
 
-const ufoContainer = document.querySelector('.ufo-container');
+// const ufoContainer = document.querySelector('.ufo-container');
 
-function createUFO() {
-  const ufo =  document.createElement('div');
-  ufo.classList.add('ufo');
+// function createUFO() {
+//   const ufo =  document.createElement('div');
+//   ufo.classList.add('ufo');
 
-//Randomize starting position on Y axis
-const startY = Math.random() * window.innerHeight * 0.8; //Between 0 and 80% of the viewport height
-ufo.style.top = `${startY}px`;
+// //Randomize starting position on Y axis
+// const startY = Math.random() * window.innerHeight * 0.8; //Between 0 and 80% of the viewport height
+// ufo.style.top = `${startY}px`;
 
-//Add animation with random speed
-const flyDuration = Math.random() * 3 + 5; //Between 5 and 8 seconds
-ufo.style.animation = `flyby ${flyDuration}s linear`;
+// //Add animation with random speed
+// const flyDuration = Math.random() * 3 + 5; //Between 5 and 8 seconds
+// ufo.style.animation = `flyby ${flyDuration}s linear`;
 
-//Remove the UFO after animation completes
-ufo.addEventListener('animationend', () => {
-  ufoContainer.removeChild(ufo);
-});
+// //Remove the UFO after animation completes
+// ufo.addEventListener('animationend', () => {
+//   ufoContainer.removeChild(ufo);
+// });
 
-//Append UFO to the container
-ufoContainer.appendChild(ufo);
-}
+// //Append UFO to the container
+// ufoContainer.appendChild(ufo);
+// }
 
-//Function to create UFOs at random intervals
-function startUFOFlybys() {
-  setInterval(createUFO, Math.random() * 2000 + 3000);
-}
+// //Function to create UFOs at random intervals
+// function startUFOFlybys() {
+//   setTimeout(() => {
+//    setInterval(createUFO, Math.random() * 2000 + 3000);
+//   }, Math.random() * 2000);
+// }
 
-startUFOFlybys();
+// startUFOFlybys();
 
 
 

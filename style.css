@@ -73,15 +73,12 @@ h3 {
   width: 90vw; 
   max-width: 500px; 
   aspect-ratio: 1; 
-  margin: auto;
+  margin: 0 auto;
   border: 4px groove black;
   background-color: darkcyan;
   color: black;
   display: grid;
-  grid-template-areas:
-    "a b c"
-    "d e f"
-    "g h i";
+  grid-template-columns: repeat(3, 1fr);
   gap: 5px;
   padding: 10px;
 }
@@ -96,6 +93,7 @@ h3 {
   align-items: center;
   font-size: 8vw; /* Responsive font size */
   overflow: hidden;
+  object-fit: contain;
 }
 
 @media (max-width: 768px) {
