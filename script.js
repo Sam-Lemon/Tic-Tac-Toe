@@ -1,3 +1,4 @@
+//GLOBAL VARIABLES
 const boxes = document.querySelectorAll(".box"); //Selects all of the boxes
 let gameTextDiv = document.getElementById("new-game-text");
 let inRound = false; //initial status is not in a round
@@ -14,6 +15,7 @@ let playerTwoMark = new URL(
 ).href; //i.pinimg.com
 let currentPlayer = playerOne;
 let moveCount = 0;
+
 const winningCombinations = [
   [0, 1, 2], // first row
   [3, 4, 5], // second row
@@ -31,12 +33,6 @@ let playerOneInput = document.getElementById("playerOneName");
 let playerTwoInput = document.getElementById("playerTwoName");
 const playComputerButton = document.getElementById("play-computer");
 
-submitNamesButton.addEventListener("click", () => {
-  playerOne = playerOneInput.value || "Player One"; //Default to "Player One" if input is empty
-  playerTwo = playerTwoInput.value || "Player Two"; //Defalut to "Player Two" if input is empty
-  gameTextDiv.innerHTML = `Names updated! Ready to play, ${playerOne} and ${playerTwo}?`;
-});
-
 let playComputer = false;
 let difficulty = "easy"; //Default to easy
 
@@ -45,6 +41,10 @@ const easyModeButton = document.getElementById("easy-mode");
 const hardModeButton = document.getElementById("hard-mode");
 let board = Array(9).fill(""); //Initialize board with 9 spaces
 
+
+//FUNCTIONS
+
+//Vs Computer
 playComputerButton.addEventListener("click", () => {
   playComputer = true;
   resetGame();
@@ -164,6 +164,15 @@ function makeHardMove() {
   }
 }
 
+//Change player names
+submitNamesButton.addEventListener("click", () => {
+  playerOne = playerOneInput.value || "Player One"; //Default to "Player One" if input is empty
+  playerTwo = playerTwoInput.value || "Player Two"; //Defalut to "Player Two" if input is empty
+  gameTextDiv.innerHTML = `Names updated! Ready to play, ${playerOne} and ${playerTwo}?`;
+});
+
+
+//Vs Another Player
 startGame.addEventListener("click", () => {
   resetGame();
   playRound();
@@ -220,34 +229,31 @@ function switchPlayer() {
 
 initializeGame();
 
-function checkWinnerForMinimax(board, mark) {
-  return winningCombinations.some((combination) => {
-    return combination.every((index) => board[index] === mark);
-  });
+
+//Checking Winner
+function checkWinner(mark) {
+  const isWinner = winningCombinations.some((combination) => {
+    const isMatch = combination.every((index) => {
+      //Check if the current mark matches the board at each position
+      return board[index] === mark;
+    });
+
+    if (isMatch) {
+      //If there's a winner, add the winning combination class and update the game
+      combination.forEach((index) => {
+        boxes[index].classList.add("winning-combination");
+      });
+
+      gameTextDiv.innerHTML = `${mark === playerOneMark ? playerOne : playerTwo} wins!`;
+      inRound = false;
+      launchFireworks();
+    }
+
+    return isMatch;
+  })
 }
 
-const isWinner = winningCombinations.some((combination) => {
-  const isMatch = combination.every((index) => {
-    const box = boxes[index];
-    const img = box.querySelector("img"); //Selects image element within box
-    return img && img.src === mark; //Checks if img exists, and its src matches the player's mark
-  });
-
-  if (isMatch) {
-    combination.forEach((id) =>
-      document.getElementById(id).classList.add("winning-combination")
-    ); //Adding class for styling purposes
-
-    gameTextDiv.innerHTML = `${
-      mark === playerOneMark ? playerOne : playerTwo
-    } is the winner!`;
-    inRound = false;
-    launchFireworks();
-  }
-
-  return isMatch;
-});
-
+//Fireworks
 function launchFireworks() {
   const duration = 2 * 1000; //Firework duration in milliseconds
   const end = Date.now() + duration;
@@ -273,6 +279,8 @@ function launchFireworks() {
   }, duration);
 }
 
+
+//Flying UFO Effect
 // const ufoContainer = document.querySelector('.ufo-container');
 
 // function createUFO() {
