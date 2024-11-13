@@ -10,6 +10,15 @@ let currentPlayer = playerOne;
 let moveCount = 0;
 
 let startGame = document.getElementById("start-game");
+let submitNamesButton = document.getElementById("submit-names");
+let playerOneInput = document.getElementById("playerOneName");
+let playerTwoInput = document.getElementById("playerTwoName");
+
+submitNamesButton.addEventListener("click", () => {
+  playerOne = playerOneInput.value || "Player One"; //Default to "Player One" if input is empty
+  playerTwo = playerTwoInput.value || "Player Two"; //Defalut to "Player Two" if input is empty
+  gameTextDiv.innerHTML = `Names updated! Ready to play, ${playerOne} and ${playerTwo}?`;
+});
 
 startGame.addEventListener("click", () => {
   resetGame();
@@ -50,7 +59,7 @@ function resetGame() {
 
   inRound = true;
   currentPlayer = playerOne;
-  gameTextDiv.innerHTML = "Starting a new game. Player One, make your play.";
+  gameTextDiv.innerHTML = `Starting a new game. ${playerOne}, make your play.`;
   startGame.textContent = "Reset Game";
   moveCount = 0;
 }
