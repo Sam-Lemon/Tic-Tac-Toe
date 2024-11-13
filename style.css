@@ -1,18 +1,46 @@
 
+@media (max-width: 768px) {
+  .box {
+    font-size: 10vw;
+  }
+  img {
+    width: 70%;
+    max-width: 80px;
+  }
+  .wrapper {
+    padding: 2vw;
+  }
+}
+
 body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 } 
 
-.wrapper {
-  padding: 0 5vw;
+h1,
+h3 {
+  text-align: center;
 }
 
-@media (max-width: 768px) {
-  .wrapper {
-    padding: 2vw;
-  }
+button {
+  background-color: #e3d1f4;
+  color: #593977;
+  border: 2px solid #995bd2;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+img {
+  width: 80%; /* Adjusts proportionately to box */
+  max-width: 100px; /* Limits size on larger screens */
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/*****Global Classes*****/
+.wrapper {
+  padding: 0 5vw;
 }
 
 .space-grotesk-ttt {
@@ -26,25 +54,14 @@ body {
   background-color: #c89df0;
 }
 
-h1,
-h3 {
-  text-align: center;
-}
 
+/*****Side Bar*****/
 .sidebar {
   background-color: #d8b3fb;
   border: 2px solid #593977;
   max-width: 40%;
   padding: 5px;
 
-}
-
-button {
-  background-color: #e3d1f4;
-  color: #593977;
-  border: 2px solid #995bd2;
-  border-radius: 5px;
-  cursor: pointer;
 }
 
 .play-option {
@@ -121,6 +138,7 @@ button {
   color: #e3d1f4;
 }
 
+/*****Game Board*****/
 #start-game {
   display: grid;
   margin: auto;
@@ -166,29 +184,14 @@ button {
   object-fit: contain;
 }
 
-@media (max-width: 768px) {
-  .box {
-    font-size: 10vw;
-  }
-  img {
-    width: 70%;
-    max-width: 80px;
-  }
-}
-
-img {
-  width: 80%; /* Adjusts proportionately to box */
-  max-width: 100px; /* Limits size on larger screens */
-  max-height: 100%;
-  object-fit: contain;
-}
-
 .winning-combination {
   background-color: rgb(109, 233, 105);
   /* background-color: rgb(244, 121, 203); */
   position: relative;
 }
 
+
+/*****UFO Effect*****/
 .ufo-container {
   position: relative;
   top: 0;

@@ -41,10 +41,9 @@ const easyModeButton = document.getElementById("easy-mode");
 const hardModeButton = document.getElementById("hard-mode");
 let board = Array(9).fill(""); //Initialize board with 9 spaces
 
+///////////FUNCTIONS///////////
 
-//FUNCTIONS
-
-//Vs Computer
+///Vs Computer///
 playComputerButton.addEventListener("click", () => {
   playComputer = true;
   resetGame();
@@ -105,7 +104,8 @@ function minimax(board, player) {
 
   //Check for winner or tie
   if (checkWinnerForMinimax(board, player)) return 10;
-  if (checkWinnerForMinimax(
+  if (
+    checkWinnerForMinimax(
       board,
       player === playerOneMark ? playerTwoMark : playerOneMark
     )
@@ -164,18 +164,17 @@ function makeHardMove() {
   }
 }
 
-//Change player names
+///Change player names///
 submitNamesButton.addEventListener("click", () => {
   playerOne = playerOneInput.value || "Player One"; //Default to "Player One" if input is empty
   playerTwo = playerTwoInput.value || "Player Two"; //Defalut to "Player Two" if input is empty
   gameTextDiv.innerHTML = `Names updated! Ready to play, ${playerOne} and ${playerTwo}?`;
 });
 
-
-//Vs Another Player
+///Vs Another Player///
 startGame.addEventListener("click", () => {
   resetGame();
-  playRound();
+  initializeGame();
 });
 
 function initializeGame() {
@@ -229,8 +228,7 @@ function switchPlayer() {
 
 initializeGame();
 
-
-//Checking Winner
+///Checking Winner///
 function checkWinner(mark) {
   const isWinner = winningCombinations.some((combination) => {
     const isMatch = combination.every((index) => {
@@ -244,16 +242,18 @@ function checkWinner(mark) {
         boxes[index].classList.add("winning-combination");
       });
 
-      gameTextDiv.innerHTML = `${mark === playerOneMark ? playerOne : playerTwo} wins!`;
+      gameTextDiv.innerHTML = `${
+        mark === playerOneMark ? playerOne : playerTwo
+      } wins!`;
       inRound = false;
       launchFireworks();
     }
 
     return isMatch;
-  })
+  });
 }
 
-//Fireworks
+///Fireworks///
 function launchFireworks() {
   const duration = 2 * 1000; //Firework duration in milliseconds
   const end = Date.now() + duration;
@@ -279,8 +279,7 @@ function launchFireworks() {
   }, duration);
 }
 
-
-//Flying UFO Effect
+///Flying UFO Effect///
 // const ufoContainer = document.querySelector('.ufo-container');
 
 // function createUFO() {
