@@ -4,8 +4,14 @@ let inRound = false; //initial status is not in a round
 
 let playerOne = "Player One";
 let playerTwo = "Player Two";
-let playerOneMark = new URL("./images/pinkAlienCharacter.png", window.location.href).href; //mungfali.com
-let playerTwoMark = new URL("./images/greenAlienCharacter.png", window.location.href).href; //i.pinimg.com
+let playerOneMark = new URL(
+  "./images/pinkAlienCharacter.png",
+  window.location.href
+).href; //mungfali.com
+let playerTwoMark = new URL(
+  "./images/greenAlienCharacter.png",
+  window.location.href
+).href; //i.pinimg.com
 let currentPlayer = playerOne;
 let moveCount = 0;
 
@@ -20,6 +26,12 @@ submitNamesButton.addEventListener("click", () => {
   gameTextDiv.innerHTML = `Names updated! Ready to play, ${playerOne} and ${playerTwo}?`;
 });
 
+const playComputerButton = document.getElementById("play-computer");
+playComputerButton.addEventListener("click", () => {
+  playComputer = true;
+  resetGame();
+});
+
 startGame.addEventListener("click", () => {
   resetGame();
   playRound();
@@ -29,13 +41,15 @@ function initializeGame() {
   boxes.forEach((box) => {
     box.addEventListener("click", function handleBoxClick() {
       if (inRound && box.innerHTML === "") {
-        box.innerHTML = currentPlayer === playerOne
-        ? `<img src="${playerOneMark}" alt="Player One's mark">`
-        : `<img src="${playerTwoMark}" alt="Player Two's mark">`;
-
+        box.innerHTML =
+          currentPlayer === playerOne
+            ? `<img src="${playerOneMark}" alt="Player One's mark">`
+            : `<img src="${playerTwoMark}" alt="Player Two's mark">`;
 
         moveCount++;
-        checkWinner(currentPlayer === playerOne ? playerOneMark : playerTwoMark);
+        checkWinner(
+          currentPlayer === playerOne ? playerOneMark : playerTwoMark
+        );
 
         if (inRound) {
           switchPlayer();
@@ -66,6 +80,10 @@ function resetGame() {
 
 function switchPlayer() {
   currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
+
+  if (playComputer && currentPlayer === playerTwo) {
+    setTimeout(computerMove, 1000); //Brief delay
+  }
 }
 
 initializeGame();
@@ -94,13 +112,36 @@ function checkWinner(mark) {
         document.getElementById(id).classList.add("winning-combination")
       ); //Adding class for styling purposes
 
-    gameTextDiv.innerHTML = `${mark === playerOneMark ? playerOne : playerTwo} is the winner!`;
-    inRound = false;
-    launchFireworks();
+      gameTextDiv.innerHTML = `${
+        mark === playerOneMark ? playerOne : playerTwo
+      } is the winner!`;
+      inRound = false;
+      launchFireworks();
     }
 
     return isMatch;
   });
+}
+
+function computerMove() {
+  const emptyBoxes = Array.from(boxes).filter((box) => box.innerHTML === "");
+  if (emptyBoxes.length > 0 && inRound) {
+    const randomBox = emptyBoxes[Math.floor(Math.random() * emptyBoxes.length)];
+    randomBox.innerHTML = `<img src="${playerTwoMark}" alt="Computer's Mark">`;
+
+    moveCount++;
+    checkWinner(playerTwoMark);
+
+    if (inRound) {
+      switchPlayer();
+      gameTextDiv.innerHTML = `${playerOne}'s turn`;
+    }
+
+    if (moveCount === 9 && inRound) {
+      gameTextDiv.innerHTML = "It's a tie!";
+      inRound = false;
+    }
+  }
 }
 
 function launchFireworks() {
@@ -108,7 +149,7 @@ function launchFireworks() {
   const end = Date.now() + duration;
 
   //Generate random fireworks over the duration
-  const interval = setInterval(function() {
+  const interval = setInterval(function () {
     if (Date.now() > end) {
       clearInterval(interval);
     }
@@ -159,6 +200,3 @@ function launchFireworks() {
 // }
 
 // startUFOFlybys();
-
-
-

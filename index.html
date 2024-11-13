@@ -25,20 +25,33 @@
     <div class="wrapper">
       <h1>Tic-Tac-UFO</h1>
 
-      <div class="player-input">
-        <label for="playerOneName">Player One Name:</label>
-        <input
-          type="text"
-          id="playerOneName"
-          placeholder="Enter Name for Player One"
-        />
-        <label for="playerTwoName"> Player Two Name:</label>
-        <input
-          type="text"
-          id="playerTwoName"
-          placeholder="Enter Name for Player Two"
-        />
-        <button id="submit-names">Submit Names</button>
+      <div class="sidebar">
+        <div class="play-option">
+          <button id="play-computer">Play the Computer</button>
+          <button>Play a Friend</button>
+        </div>
+        <div class="player-input">
+          <h3>Choose your name:</h3>
+          <div class="player-one-name">
+            <label for="playerOneName">Player One:</label>
+            <input
+              type="text"
+              id="playerOneName"
+              placeholder="Enter Name"
+            />
+          </div>
+          <div class="player-two-name">
+            <label for="playerTwoName"> Player Two:</label>
+            <input
+              type="text"
+              id="playerTwoName"
+              placeholder="Enter Name"
+            />
+          </div>
+          <div class="submit-button">
+            <button id="submit-names">Submit Names</button>
+          </div>
+        </div>
       </div>
 
       <button id="start-game">Start Game</button>

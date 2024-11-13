@@ -31,9 +31,40 @@ h3 {
   text-align: center;
 }
 
-.player-input {
+.sidebar {
+  background-color: #d8b3fb;
+  border: 2px solid #593977;
+  max-width: 40%;
+  padding: 5px;
+
+}
+
+button {
+  background-color: #e3d1f4;
+  color: #593977;
+  border: 2px solid #995bd2;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.play-option {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.play-option button {
+  padding: 5px;
+  margin: 5px;
   text-align: center;
+}
+
+.player-input {
+  text-align: right;
+  padding: 5px;
   margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
 }
 
 .player-input input {
@@ -41,15 +72,20 @@ h3 {
   padding: 5px;
   border: 2px solid #995bd2;
   border-radius: 5px;
+  width: 60%;
+  font-size: .75em;
+}
+
+.player-one-name, .player-two-name {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .player-input button {
-  padding: 5px 10px;
-  border: 2px solid #995bd2;
-  border-radius: 5px;
-  background-color: #e3d1f4;
-  color: #593977;
-  cursor: pointer;
+  width: 50%;
+  margin-right: 13px;
 }
 
 .player-input button:hover {
