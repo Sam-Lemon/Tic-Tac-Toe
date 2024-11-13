@@ -14,11 +14,22 @@ let playerTwoMark = new URL(
 ).href; //i.pinimg.com
 let currentPlayer = playerOne;
 let moveCount = 0;
+const winningCombinations = [
+  [0, 1, 2], // first row
+  [3, 4, 5], // second row
+  [6, 7, 8], // third row
+  [0, 3, 6], // first column
+  [1, 4, 7], // second column
+  [2, 5, 8], // third column
+  [0, 4, 8], // left to right diagonal
+  [2, 4, 6], // right to left diagonal
+];
 
 let startGame = document.getElementById("start-game");
 let submitNamesButton = document.getElementById("submit-names");
 let playerOneInput = document.getElementById("playerOneName");
 let playerTwoInput = document.getElementById("playerTwoName");
+const playComputerButton = document.getElementById("play-computer");
 
 submitNamesButton.addEventListener("click", () => {
   playerOne = playerOneInput.value || "Player One"; //Default to "Player One" if input is empty
@@ -26,11 +37,132 @@ submitNamesButton.addEventListener("click", () => {
   gameTextDiv.innerHTML = `Names updated! Ready to play, ${playerOne} and ${playerTwo}?`;
 });
 
-const playComputerButton = document.getElementById("play-computer");
+let playComputer = false;
+let difficulty = "easy"; //Default to easy
+
+const difficultyModal = document.getElementById("difficulty-modal");
+const easyModeButton = document.getElementById("easy-mode");
+const hardModeButton = document.getElementById("hard-mode");
+let board = Array(9).fill(""); //Initialize board with 9 spaces
+
 playComputerButton.addEventListener("click", () => {
   playComputer = true;
   resetGame();
+  difficultyModal.style.display = "flex"; //Reveals modal
 });
+
+easyModeButton.addEventListener("click", () => {
+  difficulty = "easy";
+  difficultyModal.style.display = "none"; //Hides modal
+  startGameWithComputer();
+});
+
+hardModeButton.addEventListener("click", () => {
+  difficulty = "hard";
+  difficultyModal.style.display = "none"; //Hides modal
+  startGameWithComputer();
+});
+
+function startGameWithComputer() {
+  playComputer = true;
+  resetGame();
+  gameTextDiv.innerHTML = `${playerOne}, make your move against the ${difficulty} computer.`;
+}
+
+function computerMove() {
+  if (difficulty === "easy") {
+    makeEasyMove();
+  } else {
+    makeHardMove();
+  }
+}
+
+function makeEasyMove() {
+  const emptyBoxes = Array.from(boxes).filter((box) => box.innerHTML === "");
+  if (emptyBoxes.length > 0 && inRound) {
+    const randomBox = emptyBoxes[Math.floor(Math.random() * emptyBoxes.length)];
+    randomBox.innerHTML = `<img src="${playerTwoMark}" alt="Computer's Mark">`;
+
+    moveCount++;
+    checkWinner(playerTwoMark);
+
+    if (inRound) {
+      switchPlayer();
+      gameTextDiv.innerHTML = `${playerOne}'s turn`;
+    }
+
+    if (moveCount === 9 && inRound) {
+      gameTextDiv.innerHTML = "It's a tie!";
+      inRound = false;
+    }
+  }
+}
+
+function minimax(board, player) {
+  const emptyIndexes = board
+    .map((val, index) => (val === "" ? index : null))
+    .filter((index) => index !== null);
+
+  //Check for winner or tie
+  if (checkWinnerForMinimax(board, player)) return 10;
+  if (checkWinnerForMinimax(
+      board,
+      player === playerOneMark ? playerTwoMark : playerOneMark
+    )
+  )
+    return -10;
+  if (emptyIndexes.length === 0) return 0;
+
+  let bestMove = null;
+  let bestScore = player === playerTwoMark ? -Infinity : Infinity;
+
+  //Loop through empty cells and simulate moves
+  for (let i = 0; i < emptyIndexes.length; i++) {
+    const index = emptyIndexes[i];
+    board[index] = player; //Make the move
+
+    const score = minimax(
+      board,
+      player === playerTwoMark ? playerOneMark : playerTwoMark
+    );
+
+    board[index] = ""; //Undo the move
+
+    if (player === playerTwoMark) {
+      if (score > bestScore) {
+        bestScore = score;
+        bestMove = index;
+      } else {
+        if (score < bestScore) {
+          bestScore = score;
+          bestMove = index;
+        }
+      }
+    }
+  }
+  return bestMove;
+}
+
+function makeHardMove() {
+  const bestMove = minimax(board, playerTwoMark);
+  console.log("Best Move (Hard Mode):", bestMove); //Check if bestMove is valid
+
+  if (bestMove != null) {
+    boxes[
+      bestMove
+    ].innerHTML = `<img src="${playerTwoMark}" alt="Computer's mark">`;
+    board[bestMove] = playerTwoMark; //Updating array
+
+    moveCount++;
+
+    if (checkWinner(playerTwoMark)) {
+      gameTextDiv.innerHTML = `${playerTwo} wins!`;
+      inRound = false;
+    } else {
+      switchPlayer();
+    }
+  }
+}
 
 startGame.addEventListener("click", () => {
   resetGame();
@@ -88,61 +220,33 @@ function switchPlayer() {
 
 initializeGame();
 
-function checkWinner(mark) {
-  const winningCombinations = [
-    ["a", "b", "c"], //first row
-    ["d", "e", "f"], //second row
-    ["g", "h", "i"], //third row
-    ["a", "d", "g"], //first column
-    ["b", "e", "h"], //second column
-    ["c", "f", "i"], //third column
-    ["a", "e", "i"], //left to right diagonal
-    ["c", "e", "g"], //right to left diagonal
-  ];
-
-  const isWinner = winningCombinations.some((combination) => {
-    const isMatch = combination.every((id) => {
-      const box = document.getElementById(id);
-      const img = box.querySelector("img"); //Selects image element within box
-      return img && img.src === mark; //Checks if img exists, and its src matches the player's mark
-    });
-
-    if (isMatch) {
-      combination.forEach((id) =>
-        document.getElementById(id).classList.add("winning-combination")
-      ); //Adding class for styling purposes
-
-      gameTextDiv.innerHTML = `${
-        mark === playerOneMark ? playerOne : playerTwo
-      } is the winner!`;
-      inRound = false;
-      launchFireworks();
-    }
-
-    return isMatch;
+function checkWinnerForMinimax(board, mark) {
+  return winningCombinations.some((combination) => {
+    return combination.every((index) => board[index] === mark);
   });
 }
 
-function computerMove() {
-  const emptyBoxes = Array.from(boxes).filter((box) => box.innerHTML === "");
-  if (emptyBoxes.length > 0 && inRound) {
-    const randomBox = emptyBoxes[Math.floor(Math.random() * emptyBoxes.length)];
-    randomBox.innerHTML = `<img src="${playerTwoMark}" alt="Computer's Mark">`;
+const isWinner = winningCombinations.some((combination) => {
+  const isMatch = combination.every((index) => {
+    const box = boxes[index];
+    const img = box.querySelector("img"); //Selects image element within box
+    return img && img.src === mark; //Checks if img exists, and its src matches the player's mark
+  });
 
-    moveCount++;
-    checkWinner(playerTwoMark);
+  if (isMatch) {
+    combination.forEach((id) =>
+      document.getElementById(id).classList.add("winning-combination")
+    ); //Adding class for styling purposes
 
-    if (inRound) {
-      switchPlayer();
-      gameTextDiv.innerHTML = `${playerOne}'s turn`;
-    }
-
-    if (moveCount === 9 && inRound) {
-      gameTextDiv.innerHTML = "It's a tie!";
-      inRound = false;
-    }
+    gameTextDiv.innerHTML = `${
+      mark === playerOneMark ? playerOne : playerTwo
+    } is the winner!`;
+    inRound = false;
+    launchFireworks();
   }
-}
+
+  return isMatch;
+});
 
 function launchFireworks() {
   const duration = 2 * 1000; //Firework duration in milliseconds
