@@ -23,7 +23,9 @@
   </head>
   <body class="space-grotesk">
     <section class="wrapper">
-      <header>Tic-Tac-UFO</header>
+      <header>
+        <h1>Tic-Tac-UFO</h1>
+      </header>
 
       <aside class="sidebar">
         <section class="play-option">
@@ -54,14 +56,14 @@
           <button id="submit-names">Submit Names</button>
         </section>
 
-        <section class="leader-board">
+        <!-- <section class="leader-board">
           <h3>Leader Board</h3>
           <div>
             <ol>
               <li>Winner</li>
             </ol>
           </div>
-        </section>
+        </section> -->
       </aside>
 
       <main class="game">
@@ -81,7 +83,14 @@
         </div>
       </main>
 
-      <section class="modal" id="difficulty-modal" aria-modal="true" role="dialog" aria-labelledby="modal-title">
+      <section
+        class="modal"
+        id="difficulty-modal"
+        aria-modal="true"
+        role="dialog"
+        aria-labelledby="modal-title"
+        tabindex="-1"
+      >
         <div class="modal-content">
           <h2>Select Computer Difficulty</h2>
           <button id="easy-mode">Easy</button>

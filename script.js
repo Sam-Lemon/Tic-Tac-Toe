@@ -78,9 +78,13 @@ function computerMove() {
 
 function makeEasyMove() {
   const emptyBoxes = Array.from(boxes).filter((box) => box.innerHTML === "");
+
   if (emptyBoxes.length > 0 && inRound) {
     const randomBox = emptyBoxes[Math.floor(Math.random() * emptyBoxes.length)];
+    const index = Array.from(boxes).indexOf(randomBox); //Get index of selected box
+
     randomBox.innerHTML = `<img src="${playerTwoMark}" alt="Computer's Mark">`;
+    board[index] = playerTwoMark; //Update the board array at the selected index
 
     moveCount++;
     checkWinner(playerTwoMark);
@@ -132,11 +136,11 @@ function minimax(board, player) {
       if (score > bestScore) {
         bestScore = score;
         bestMove = index;
-      } else {
-        if (score < bestScore) {
-          bestScore = score;
-          bestMove = index;
-        }
+      }
+    } else {
+      if (score < bestScore) {
+        bestScore = score;
+        bestMove = index;
       }
     }
   }
@@ -151,14 +155,11 @@ function makeHardMove() {
     boxes[
       bestMove
     ].innerHTML = `<img src="${playerTwoMark}" alt="Computer's mark">`;
-    board[bestMove] = playerTwoMark; //Updating array
+    board[bestMove] = playerTwoMark; //Updating board
 
     moveCount++;
-
-    if (checkWinner(playerTwoMark)) {
-      gameTextDiv.innerHTML = `${playerTwo} wins!`;
-      inRound = false;
-    } else {
+    checkWinner(playerTwoMark);
+    if (inRound) {
       switchPlayer();
     }
   }
@@ -178,14 +179,26 @@ startGame.addEventListener("click", () => {
 });
 
 function initializeGame() {
+  //Reset board state on new game start
+  board.fill(""); //Clear board array
+  moveCount = 0;
+  inRound = "true";
+
   boxes.forEach((box) => {
     box.addEventListener("click", function handleBoxClick() {
+      const index = Array.from(boxes).indexOf(box); //Get index of clicked box
+
       if (inRound && box.innerHTML === "") {
         box.innerHTML =
           currentPlayer === playerOne
             ? `<img src="${playerOneMark}" alt="Player One's mark">`
             : `<img src="${playerTwoMark}" alt="Player Two's mark">`;
+
+        //Update the board state array with the current player's mark
+        board[index] = currentPlayer === playerOne ? playerOneMark : playerTwoMark;
+        
         moveCount++;
+
         checkWinner(
           currentPlayer === playerOne ? playerOneMark : playerTwoMark
         );
@@ -210,11 +223,15 @@ function resetGame() {
     box.classList.remove("winning-combination");
   });
 
+  board.fill(""); //Reset board state array to empty
+  moveCount = 0;
   inRound = true;
   currentPlayer = playerOne;
   gameTextDiv.innerHTML = `Starting a new game. ${playerOne}, make your play.`;
   startGame.textContent = "Reset Game";
-  moveCount = 0;
+  playComputer = false;
+  difficulty = "Easy"; //Reset difficulty
+  difficultyModal.style.display = "none"; //Hides difficulty modal
 }
 
 function switchPlayer() {
