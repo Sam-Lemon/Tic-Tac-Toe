@@ -16,9 +16,17 @@ body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  height: 100vh;
+  z-index: auto;
+  background-color: #995bd2;
 } 
 
-h1,
+header {
+  font-size: 3.5em;
+  font-weight: 700;
+}
+
+header,
 h3 {
   text-align: center;
 }
@@ -39,29 +47,30 @@ img {
 }
 
 /*****Global Classes*****/
-.wrapper {
-  padding: 0 5vw;
-}
-
-.space-grotesk-ttt {
+.space-grotesk {
   font-family: "Space Grotesk", sans-serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-style: normal;
 }
 
-.ttt-page {
-  background-color: #c89df0;
+.wrapper {
+  min-height: 100vh;
+  background-color: #AD49E1;
 }
 
 
 /*****Side Bar*****/
 .sidebar {
-  background-color: #d8b3fb;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #e3d1f470;
   border: 2px solid #593977;
-  max-width: 40%;
   padding: 5px;
-
+  z-index: 10;
 }
 
 .play-option {
@@ -83,10 +92,11 @@ img {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  max-width: 60%;
+  max-height: 40%;
   z-index: 1000;
+  margin: 0;
+  padding: 0;
 }
 
 .modal-content {
@@ -97,11 +107,19 @@ img {
 }
 
 .modal-content button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 10px;
   padding: 10px 20px;
   cursor: pointer;
   border: none;
   border-radius: 5px;
+  width: 30%;
+}
+
+.modal-content button:hover {
+  border: 2px solid #2E073F;
 }
 
 .player-input {
@@ -121,7 +139,7 @@ img {
   font-size: .75em;
 }
 
-.player-one-name, .player-two-name {
+.form-group {
   display: flex;
   flex-direction: row;
   justify-content: center;

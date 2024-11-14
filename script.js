@@ -1,4 +1,4 @@
-//GLOBAL VARIABLES
+/////////// GLOBAL VARIABLES ///////////
 const boxes = document.querySelectorAll(".box"); //Selects all of the boxes
 let gameTextDiv = document.getElementById("new-game-text");
 let inRound = false; //initial status is not in a round
@@ -41,7 +41,7 @@ const easyModeButton = document.getElementById("easy-mode");
 const hardModeButton = document.getElementById("hard-mode");
 let board = Array(9).fill(""); //Initialize board with 9 spaces
 
-///////////FUNCTIONS///////////
+/////////// FUNCTIONS ///////////
 
 ///Vs Computer///
 playComputerButton.addEventListener("click", () => {
@@ -185,7 +185,6 @@ function initializeGame() {
           currentPlayer === playerOne
             ? `<img src="${playerOneMark}" alt="Player One's mark">`
             : `<img src="${playerTwoMark}" alt="Player Two's mark">`;
-
         moveCount++;
         checkWinner(
           currentPlayer === playerOne ? playerOneMark : playerTwoMark

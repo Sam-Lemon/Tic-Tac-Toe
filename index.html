@@ -21,66 +21,76 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   </head>
-  <body class="ttt-page space-grotesk-ttt">
-    <div class="wrapper">
-      <h1>Tic-Tac-UFO</h1>
+  <body class="space-grotesk">
+    <section class="wrapper">
+      <header>Tic-Tac-UFO</header>
 
-      <div class="sidebar">
-        <div class="play-option">
+      <aside class="sidebar">
+        <section class="play-option">
           <button id="play-computer">Play the Computer</button>
           <button>Play a Friend</button>
-        </div>
-        <div class="player-input">
+        </section>
+
+        <section class="player-input">
           <h3>Choose your name:</h3>
-          <div class="player-one-name">
+          <div class="form-group">
             <label for="playerOneName">Player One:</label>
-            <input type="text" id="playerOneName" placeholder="Enter Name" />
+            <input
+              type="text"
+              id="playerOneName"
+              placeholder="Enter Name"
+              class="form-control"
+            />
           </div>
-          <div class="player-two-name">
+          <div class="form-group">
             <label for="playerTwoName"> Player Two:</label>
-            <input type="text" id="playerTwoName" placeholder="Enter Name" />
+            <input
+              type="text"
+              id="playerTwoName"
+              placeholder="Enter Name"
+              class="form-control"
+            />
           </div>
-          <div class="submit-button">
-            <button id="submit-names">Submit Names</button>
-          </div>
-        </div>
-        <div class="leader-board">
+          <button id="submit-names">Submit Names</button>
+        </section>
+
+        <section class="leader-board">
           <h3>Leader Board</h3>
           <div>
             <ol>
               <li>Winner</li>
             </ol>
           </div>
-        </div>
-      </div>
+        </section>
+      </aside>
 
-      <div class="game">
+      <main class="game">
         <button id="start-game">Start Game</button>
         <h3 id="new-game-text"></h3>
 
         <div class="game-board">
-          <div class="box" id="a"></div>
-          <div class="box" id="b"></div>
-          <div class="box" id="c"></div>
-          <div class="box" id="d"></div>
-          <div class="box" id="e"></div>
-          <div class="box" id="f"></div>
-          <div class="box" id="g"></div>
-          <div class="box" id="h"></div>
-          <div class="box" id="i"></div>
+          <div class="box" id="a" aria-label="game cell A"></div>
+          <div class="box" id="b" aria-label="game cell B"></div>
+          <div class="box" id="c" aria-label="game cell C"></div>
+          <div class="box" id="d" aria-label="game cell D"></div>
+          <div class="box" id="e" aria-label="game cell E"></div>
+          <div class="box" id="f" aria-label="game cell F"></div>
+          <div class="box" id="g" aria-label="game cell G"></div>
+          <div class="box" id="h" aria-label="game cell H"></div>
+          <div class="box" id="i" aria-label="game cell I"></div>
         </div>
-      </div>
+      </main>
 
-      <div class="modal" id="difficulty-modal">
+      <section class="modal" id="difficulty-modal" aria-modal="true" role="dialog" aria-labelledby="modal-title">
         <div class="modal-content">
-          <h2>Select Difficulty</h2>
+          <h2>Select Computer Difficulty</h2>
           <button id="easy-mode">Easy</button>
           <button id="hard-mode">Hard</button>
         </div>
-      </div>
+      </section>
 
-      <div class="ufo-container"></div>
-    </div>
+      <!-- <div class="ufo-container"></div> -->
+    </section>
 
     <script src="node_modules/jquery/dist/jquery.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
