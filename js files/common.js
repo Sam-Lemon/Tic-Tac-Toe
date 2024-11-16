@@ -51,10 +51,13 @@ function resetGame() {
 
   boxes.forEach((box) => {
     box.classList.remove("winning-combination");
+    box.textContent = "";
+    gameTextDiv.innerHTML = "";
   });
 
   inRound = false;
   moveCount = 0;
+  console.log("Move count reset to 0");
 }
 
 // Handle box click
