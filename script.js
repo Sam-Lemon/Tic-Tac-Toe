@@ -46,13 +46,29 @@ const winningCombinations = [
 
 /////////// GAME FUNCTIONS ///////////
 
+// Start the game with the computer
+function startGameWithComputer() {
+  playComputer = true;
+  difficulty = "easy";
+  initializeGame();
+  gameTextDiv.innerHTML = `${currentPlayer}'s turn against the computer!`;
+}
+
+//Start a new game with PvP
+function startGameWithPvP() {
+  playComputer = false;
+  initializeGame();
+  gameTextDiv.innerHTML = `${currentPlayer}'s turn!`;
+}
+
+
 // Initialize the game
 function initializeGame() {
   board.fill(""); // Clear board
   moveCount = 0;
   inRound = true;
   currentPlayer = playerOne;
-  resetBoard();
+  // resetBoard();
   updateGameText(`${playerOne}'s turn`);
 }
 
@@ -63,33 +79,43 @@ function resetBoard() {
     box.classList.remove("winning-combination");
     box.addEventListener("click", handleBoxClick);
   });
+  inRound = false;
+  playComputer = false;
 }
 
 // Handle box click
 function handleBoxClick(event) {
-  const index = Array.from(boxes).indexOf(event.target);
+  const clickedBox = event.target; // Using more descriptive variable
+  const index = Array.from(boxes).indexOf(clickedBox);
 
   if (inRound && board[index] === "") {
-    board[index] = currentPlayer === playerOne ? playerOneMark : playerTwoMark;
-    event.target.innerHTML = `<img src = "${board[index]}" alt="${currentPlayer}'s mark">`;
+    const currentMark = currentPlayer === playerOne ? playerOneMark : playerTwoMark;
+
+    // Place the mark on the board
+    board[index] = currentMark;
+    clickedBox.innerHTML = `<img src = "${currentMark}" alt="${currentPlayer}'s mark">`;
 
     moveCount++;
-    if (checkWinner(board[index])) {
+    console.log("Move count:", moveCount);
+
+    if (checkWinner(currentMark)) {
       gameTextDiv.innerHTML = `${currentPlayer} wins!`;
       inRound = false;
-      highlightWinner(board[index]);
+      highlightWinner(currentMark);
     } else if (moveCount === NUM_CELLS) {
       gameTextDiv.innerHTML = "It's a tie!";
       inRound = false;
     } else {
-      switchPlayer();
+      console.log("Before switching player");
+      switchPlayer(); // Switches to the other player
     }
   }
 }
 
+
 // Check for winner
 function checkWinner(mark) {
-  return winningCombinations.some((combination) => {
+  const winnerFound = winningCombinations.some((combination) => {
     const isMatch = combination.every((index) => board[index] === mark);
     if (isMatch) {
       combination.forEach((index) =>
@@ -98,10 +124,16 @@ function checkWinner(mark) {
     }
     return isMatch;
   });
+
+  if (winnerFound) {
+    inRound = false; // Ends round if a winner is found
+    gameTextDiv.innerHTML = `${currentPlayer} wins!`;
+  }
+  return winnerFound;
 }
 
 // Highlight the winning combination
-function highlightWinner(mark) {
+function highlightWinner(mark) 
   winningCombinations.forEach((combination) => {
     if (combination.every((index) => board[index] === mark)) {
       combination.forEach((index) =>
@@ -110,28 +142,44 @@ function highlightWinner(mark) {
     }
     launchFireworks();
   });
-}
+
 
 // Switch player turns
 function switchPlayer() {
+  console.log("Switching player from ", currentPlayer); // Check current player
   currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
-  if (playComputer && currentPlayer === playerTwo) {
-    setTimeout(computerMove, 1000); // Simulate thinking time
+  console.log("New currentPlayer:", currentPlayer); // currentPlayer after the switch
+
+  if (playComputer) {
+    // If playing against the computer and it's the computer's turn
+    if (currentPlayer === playerTwo) {
+      console.log("Computer's turn after player");
+      if (inRound) {
+        setTimeout (() => {
+          console.log("setTimeout triggered, making computer move");
+          computerMove();
+        }, 1000);
+      }
+    }
   } else {
+    // If playing against another human player
+    console.log(`${currentPlayer}'s turn now`);
     updateGameText(`${currentPlayer}'s turn`);
   }
 }
 
 // Update the game text
 function updateGameText(text) {
+  console.log("Updating game text to:", text); // Log text that will be shown
   gameTextDiv.innerHTML = text;
 }
 
 // Start the game with the computer
 function startGameWithComputer() {
-  playComputer = true;
   resetGame();
+  inRound = true;
   gameTextDiv.innerHTML = `${playerOne}, make your move against the ${difficulty} computer.`;
+  updateGameText(`${playerOne}'s turn`); // Update game text to reflect player one's turn
 }
 
 // Reset the game to initial state
@@ -150,24 +198,34 @@ function resetGame() {
 
 // Handle computer's move (easy/hard)
 function computerMove() {
+  console.log("Computer's turn...");
   if (difficulty === "easy") {
+    console.log("Making easy move...");
     makeEasyMove();
   } else {
+    console.log("Making hard move...");
     makeHardMove();
   }
 }
 
 // Easy mode move (random)
 function makeEasyMove() {
-  const emptyBoxes = Array.from(boxes).filter((box) => box.innerHTML === "");
-  if (emptyBoxes.length > 0 && inRound) {
-    const randomBox = emptyBoxes[Math.floor(Math.random() * emptyBoxes.length)];
-    const index = Array.from(boxes).indexOf(randomBox);
-    randomBox.innerHTML = `<img src="${playerTwoMark}" alt="Computer's mark">`;
-    board[index] = playerTwoMark;
-    moveCount++;
-    checkWinner(playerTwoMark);
-    if (inRound) switchPlayer();
+  if (inRound) {
+    console.log("Making easy move...");
+    const emptyBoxes = Array.from(boxes).filter((box) => box.innerHTML === "");
+    if (emptyBoxes.length > 0 && inRound) {
+      const randomBox =
+        emptyBoxes[Math.floor(Math.random() * emptyBoxes.length)];
+      const index = Array.from(boxes).indexOf(randomBox);
+      console.log("Random box selected: ", randomBox);
+      randomBox.innerHTML = `<img src="${playerTwoMark}" alt="Computer's mark">`;
+      board[index] = playerTwoMark;
+      moveCount++;
+      checkWinner(playerTwoMark);
+    }
+    switchPlayer();
+  } else {
+    console.log("inRound is: ", inRound);
   }
 }
 
@@ -178,15 +236,23 @@ function minimax(board, player) {
     .filter((index) => index !== null);
 
   //Check for winner or tie
-  if (checkWinnerForMinimax(board, player)) return 10;
+  if (checkWinnerForMinimax(board, player)) {
+    console.log(`Player ${player} wins with move!`);
+    return 10;
+  }
   if (
     checkWinnerForMinimax(
       board,
       player === playerOneMark ? playerTwoMark : playerOneMark
     )
-  )
+  ) {
+    console.log("Opponent wins with move!");
     return -10;
-  if (emptyIndexes.length === 0) return 0;
+  }
+  if (emptyIndexes.length === 0) {
+    console.log("It's a tie!");
+    return 0;
+  }
 
   let bestMove = null;
   let bestScore = player === playerTwoMark ? -Infinity : Infinity;
@@ -215,20 +281,44 @@ function minimax(board, player) {
       }
     }
   }
+
+  console.log(`Best move for ${player}: ${bestMove} with score: ${bestScore}`);
   return bestMove;
+}
+
+// Minimax helper function - Check winner for Minimax
+function checkWinnerForMinimax(board, player) {
+  console.log(`Checking winner for player: ${player}, board: `, board); // Log current player
+
+  const isWinner = winningCombinations.some((combination) => {
+    const isMatch = combination.every((index) => board[index] === player);
+    if (isMatch) {
+      console.log(`Player ${player} wins with combination: `, combination);
+    }
+    return isMatch;
+  });
+
+  console.log("Is winner: ", isWinner); // Lof if winner was found
+  return isWinner;
 }
 
 // Hard mode move (best move using Minimax)
 function makeHardMove() {
-  const bestMove = minimax(board, playerTwoMark);
-  if (bestMove !== null) {
-    boxes[
-      bestMove
-    ].innerHTML = `<img src="${playerTwoMark}" alt="Computer's mark">`;
-    board[bestMove] = playerTwoMark;
-    moveCount++;
-    checkWinner(playerTwoMark);
-    if (inRound) switchPlayer();
+  if (inRound) {
+    console.log("Making hard move...");
+    const bestMove = minimax(board, playerTwoMark);
+    console.log("Best move determined by Minimax: ", bestMove);
+
+    if (bestMove !== null) {
+      boxes[
+        bestMove
+      ].innerHTML = `<img src="${playerTwoMark}" alt="Computer's mark">`;
+      board[bestMove] = playerTwoMark;
+      moveCount++;
+      checkWinner(playerTwoMark);
+    }
+  } else {
+    console.log("inRound is: ", inRound);
   }
 }
 
@@ -251,8 +341,9 @@ submitNamesButton.addEventListener("click", () => {
 
 // Play vs computer
 playComputerButton.addEventListener("click", () => {
-  playComputer = true;
   resetGame();
+  playComputer = true;
+  console.log("playComputer: ", playComputer);
   difficultyModal.style.display = "flex";
 });
 
@@ -261,7 +352,7 @@ easyModeButton.addEventListener("click", () => {
   difficulty = "easy";
   difficultyModal.style.display = "none";
   console.log("Player vs Computer - Easy Mode");
-  startGameWithComputer();
+  startGameWithComputer(); // Start game with computer
   console.log("Easy game with computer started");
 });
 
@@ -270,7 +361,7 @@ hardModeButton.addEventListener("click", () => {
   difficulty = "hard";
   difficultyModal.style.display = "none";
   console.log("Player vs Computer - Hard Mode");
-  startGameWithComputer();
+  startGameWithComputer(); // Start game with computer
   console.log("Hard game with computer started");
 });
 
@@ -301,310 +392,3 @@ function launchFireworks() {
     gameTextDiv.innerHTML = "Game Over!";
   }, duration);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// /////////// FUNCTIONS ///////////
-
-// ///Vs Computer///
-// playComputerButton.addEventListener("click", () => {
-//   playComputer = true;
-//   resetGame();
-//   difficultyModal.style.display = "flex"; //Reveals modal
-// });
-
-// easyModeButton.addEventListener("click", () => {
-//   difficulty = "easy";
-//   difficultyModal.style.display = "none"; //Hides modal
-//   startGameWithComputer();
-// });
-
-// hardModeButton.addEventListener("click", () => {
-//   difficulty = "hard";
-//   difficultyModal.style.display = "none"; //Hides modal
-//   startGameWithComputer();
-// });
-
-// function startGameWithComputer() {
-//   playComputer = true;
-//   resetGame();
-//   gameTextDiv.innerHTML = `${playerOne}, make your move against the ${difficulty} computer.`;
-// }
-
-// function computerMove() {
-//   if (difficulty === "easy") {
-//     makeEasyMove();
-//   } else {
-//     makeHardMove();
-//   }
-// }
-
-// function makeEasyMove() {
-//   const emptyBoxes = Array.from(boxes).filter((box) => box.innerHTML === "");
-
-//   if (emptyBoxes.length > 0 && inRound) {
-//     const randomBox = emptyBoxes[Math.floor(Math.random() * emptyBoxes.length)];
-//     const index = Array.from(boxes).indexOf(randomBox); //Get index of selected box
-
-//     randomBox.innerHTML = `<img src="${playerTwoMark}" alt="Computer's Mark">`;
-//     board[index] = playerTwoMark; //Update the board array at the selected index
-
-//     moveCount++;
-//     checkWinner(playerTwoMark);
-
-//     if (inRound) {
-//       switchPlayer();
-//       gameTextDiv.innerHTML = `${playerOne}'s turn`;
-//     }
-
-//     if (moveCount === 9 && inRound) {
-//       gameTextDiv.innerHTML = "It's a tie!";
-//       inRound = false;
-//     }
-//   }
-// }
-
-// function minimax(board, player) {
-//   const emptyIndexes = board
-//     .map((val, index) => (val === "" ? index : null))
-//     .filter((index) => index !== null);
-
-//   //Check for winner or tie
-//   if (checkWinnerForMinimax(board, player)) return 10;
-//   if (
-//     checkWinnerForMinimax(
-//       board,
-//       player === playerOneMark ? playerTwoMark : playerOneMark
-//     )
-//   )
-//     return -10;
-//   if (emptyIndexes.length === 0) return 0;
-
-//   let bestMove = null;
-//   let bestScore = player === playerTwoMark ? -Infinity : Infinity;
-
-//   //Loop through empty cells and simulate moves
-//   for (let i = 0; i < emptyIndexes.length; i++) {
-//     const index = emptyIndexes[i];
-//     board[index] = player; //Make the move
-
-//     const score = minimax(
-//       board,
-//       player === playerTwoMark ? playerOneMark : playerTwoMark
-//     );
-
-//     board[index] = ""; //Undo the move
-
-//     if (player === playerTwoMark) {
-//       if (score > bestScore) {
-//         bestScore = score;
-//         bestMove = index;
-//       }
-//     } else {
-//       if (score < bestScore) {
-//         bestScore = score;
-//         bestMove = index;
-//       }
-//     }
-//   }
-//   return bestMove;
-// }
-
-// function makeHardMove() {
-//   const bestMove = minimax(board, playerTwoMark);
-//   console.log("Best Move (Hard Mode):", bestMove); //Check if bestMove is valid
-
-//   if (bestMove !== null) {
-//     boxes[
-//       bestMove
-//     ].innerHTML = `<img src="${playerTwoMark}" alt="Computer's mark">`;
-//     board[bestMove] = playerTwoMark; //Updating board
-
-//     moveCount++;
-//     checkWinner(playerTwoMark);
-
-//     if (inRound) {
-//       switchPlayer();
-//     }
-//   }
-// }
-
-// ///Change player names///
-// submitNamesButton.addEventListener("click", () => {
-//   playerOne = playerOneInput.value || "Player One"; //Default to "Player One" if input is empty
-//   playerTwo = playerTwoInput.value || "Player Two"; //Defalut to "Player Two" if input is empty
-//   gameTextDiv.innerHTML = `Names updated! Ready to play, ${playerOne} and ${playerTwo}?`;
-// });
-
-// ///Vs Another Player///
-// startGame.addEventListener("click", () => {
-//   resetGame();
-//   initializeGame();
-// });
-
-// function initializeGame() {
-//   //Reset board state on new game start
-//   board.fill(""); //Clear board array
-//   moveCount = 0;
-//   inRound = "true";
-//   currentPlayer = playerOne;
-
-//   boxes.forEach((box) => {
-//     box.addEventListener("click", function handleBoxClick() {
-//       const index = Array.from(boxes).indexOf(box); //Get index of clicked box
-
-//       if (inRound && box.innerHTML === "") {
-//         box.innerHTML =
-//           currentPlayer === playerOne
-//             ? `<img src="${playerOneMark}" alt="Player One's mark">`
-//             : `<img src="${playerTwoMark}" alt="Player Two's mark">`;
-
-//         //Update the board state array with the current player's mark
-//         board[index] =
-//           currentPlayer === playerOne ? playerOneMark : playerTwoMark;
-
-//         moveCount++;
-//         checkWinner(
-//           currentPlayer === playerOne ? playerOneMark : playerTwoMark
-//         );
-
-//         if (inRound) {
-//           switchPlayer();
-//           gameTextDiv.innerHTML = `${currentPlayer}'s turn`;
-//         }
-
-//         if (moveCount === 9 && inRound) {
-//           gameTextDiv.innerHTML = "It's a tie!";
-//           inRound = false;
-//         }
-//       }
-//     });
-//   });
-// }
-
-// function resetGame() {
-//   Array.from(boxes).forEach((box) => {
-//     box.innerHTML = "";
-//     box.classList.remove("winning-combination");
-//   });
-
-//   board.fill(""); //Reset board state array to empty
-//   moveCount = 0;
-//   inRound = true;
-//   currentPlayer = playerOne;
-//   gameTextDiv.innerHTML = `Starting a new game. ${playerOne}, make your play.`;
-//   startGame.textContent = "Reset Game";
-//   playComputer = false;
-//   difficulty = "Easy"; //Reset difficulty
-//   difficultyModal.style.display = "none"; //Hides difficulty modal
-// }
-
-// function switchPlayer() {
-//   currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
-
-//   if (playComputer && currentPlayer === playerTwo) {
-//     setTimeout(computerMove, 1000); //Brief delay
-//   } else if (!playComputer) {
-//     gameTextDiv.innerHTML = `${currentPlayer}'s turn`;
-//   }
-// }
-
-// initializeGame();
-
-// ///Checking Winner///
-// function checkWinner(mark) {
-//   const isWinner = winningCombinations.some((combination) => {
-//     const isMatch = combination.every((index) => {
-//       //Check if the current mark matches the board at each position
-//       return board[index] === mark;
-//     });
-
-//     if (isMatch) {
-//       //If there's a winner, add the winning combination class and update the game
-//       combination.forEach((index) => {
-//         boxes[index].classList.add("winning-combination");
-//       });
-
-//       gameTextDiv.innerHTML = `${
-//         mark === playerOneMark ? playerOne : playerTwo
-//       } wins!`;
-//       inRound = false;
-//       launchFireworks();
-//     }
-
-//     return isMatch;
-//   });
-
-//   return isWinner;
-// }
-
-// ///Fireworks///
-// function launchFireworks() {
-//   const duration = 2 * 1000; //Firework duration in milliseconds
-//   const end = Date.now() + duration;
-
-//   //Generate random fireworks over the duration
-//   const interval = setInterval(function () {
-//     if (Date.now() > end) {
-//       clearInterval(interval);
-//     }
-//     confetti({
-//       particleCount: 300,
-//       angle: Math.random() * 360,
-//       spread: 70,
-//       origin: {
-//         x: 0.5,
-//         y: Math.random() * 0.6, //Random Y to keep fireworks mostly above mid screen
-//       },
-//     });
-//   }, 200); //Interval between fireworks bursts
-
-//   setTimeout(() => {
-//     gameTextDiv.innerHTML = "Game Over!";
-//   }, duration);
-// }
-
-// ///Flying UFO Effect///
-// // const ufoContainer = document.querySelector('.ufo-container');
-
-// // function createUFO() {
-// //   const ufo =  document.createElement('div');
-// //   ufo.classList.add('ufo');
-
-// // //Randomize starting position on Y axis
-// // const startY = Math.random() * window.innerHeight * 0.8; //Between 0 and 80% of the viewport height
-// // ufo.style.top = `${startY}px`;
-
-// // //Add animation with random speed
-// // const flyDuration = Math.random() * 3 + 5; //Between 5 and 8 seconds
-// // ufo.style.animation = `flyby ${flyDuration}s linear`;
-
-// // //Remove the UFO after animation completes
-// // ufo.addEventListener('animationend', () => {
-// //   ufoContainer.removeChild(ufo);
-// // });
-
-// // //Append UFO to the container
-// // ufoContainer.appendChild(ufo);
-// // }
-
-// // //Function to create UFOs at random intervals
-// // function startUFOFlybys() {
-// //   setTimeout(() => {
-// //    setInterval(createUFO, Math.random() * 2000 + 3000);
-// //   }, Math.random() * 2000);
-// // }
-
-// // startUFOFlybys();

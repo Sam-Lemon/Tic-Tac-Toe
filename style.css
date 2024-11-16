@@ -157,7 +157,7 @@ img {
 }
 
 /*****Game Board*****/
-#start-game {
+#new-game {
   display: grid;
   margin: auto;
   padding: 5px 10px;
@@ -169,7 +169,7 @@ img {
   cursor: pointer;
 }
 
-#start-game:hover {
+#new-game:hover {
   background-color: #995bd2;
   border-color: #e3d1f4;
   color: #e3d1f4;
