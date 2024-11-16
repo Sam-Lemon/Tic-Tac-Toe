@@ -83,6 +83,15 @@ img {
   padding: 5px;
   margin: 5px;
   text-align: center;
+  box-shadow:2px 2px 2px #fff ;
+}
+
+.play-option button:hover,
+.clicked {
+  background-color: #593977;
+  border: 2px dashed #e3d1f4;
+  color: #e3d1f4;
+  box-shadow: none;
 }
 
 .modal {
