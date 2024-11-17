@@ -19,7 +19,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
     />
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   </head>
   <body class="space-grotesk">
@@ -29,35 +29,6 @@
       </header>
 
       <aside class="sidebar">
-        <section class="play-option">
-          <h3>Choose your mode:</h3>
-          <button id="play-friend">Play a Friend</button>
-          <button id="play-computer">Play the Computer</button>
-        </section>
-
-        <section class="player-input">
-          <h3>Choose your name:</h3>
-          <div class="form-group">
-            <label for="playerOneName">Player One:</label>
-            <input
-              type="text"
-              id="playerOneName"
-              placeholder="Enter Name"
-              class="form-control"
-            />
-          </div>
-          <div class="form-group">
-            <label for="playerTwoName"> Player Two:</label>
-            <input
-              type="text"
-              id="playerTwoName"
-              placeholder="Enter Name"
-              class="form-control"
-            />
-          </div>
-          <button id="submit-names">Submit Names</button>
-        </section>
-
         <!-- <section class="leader-board">
           <h3>Leader Board</h3>
           <div>
@@ -84,6 +55,57 @@
           <div class="box" id="i" aria-label="game cell I"></div>
         </div>
       </main>
+
+      <section 
+        class="modal"
+        id="game-mode-modal"
+        aria-invalid="true"
+        role="dialog"
+        aria-labelledby="modal-title"
+        tabindex="-1"
+        >
+        <div class="play-option">
+          <h3>Choose your mode:</h3>
+          <button id="play-friend">Play a Friend</button>
+          <button id="play-computer">Play the Computer</button>
+        </div>
+      </section>
+
+      <section
+        class="modal"
+        id="player-name-modal"
+        aria-invalid="true"
+        role="dialog"
+        aria-labelledby="modal-title"
+        tabindex="-1"
+      >
+        <div class="player-input">
+          <h3>Choose your name:</h3>
+          <div class="form-group">
+            <label for="playerOneName">Player One:</label>
+            <input
+              type="text"
+              id="playerOneName"
+              placeholder="Enter Name"
+              class="form-control"
+            />
+          </div>
+          <div class="form-group">
+            <label for="playerTwoName"> Player Two:</label>
+            <input
+              type="text"
+              id="playerTwoName"
+              placeholder="Enter Name"
+              class="form-control"
+            />
+          </div>
+          <button id="submit-names">Submit Names</button>
+          <div id="message"></div>
+          <p>If you don't want to add names, just press Start Game</p>
+          <button id="start-game">Start PvP Game</button>
+          
+        </div>
+      </section>
 
       <section
         class="modal"

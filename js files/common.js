@@ -14,10 +14,14 @@ const DEFAULT_MARKS = [
 const boxes = document.querySelectorAll(".box");
 const difficultyModal = document.getElementById("difficulty-modal");
 const easyModeButton = document.getElementById("easy-mode");
+const gameModeModal = document.getElementById("game-mode-modal");
 const gameTextDiv = document.getElementById("new-game-text");
 const hardModeButton = document.getElementById("hard-mode");
+const message = document.getElementById("message");
 const newGameButton = document.getElementById("new-game");
 const playComputerButton = document.getElementById("play-computer");
+const playFriendButton = document.getElementById("play-friend");
+const playerNameModal = document.getElementById("player-name-modal");
 const playerOneInput = document.getElementById("playerOneName");
 const playerTwoInput = document.getElementById("playerTwoName");
 const submitNamesButton = document.getElementById("submit-names");
@@ -154,7 +158,7 @@ function updateGameText(text) {
 // Start new game button
 newGameButton.addEventListener("click", () => {
   resetGame();
-  startPvPGame();
+  gameModeModal.style.display = "flex";
 });
 
 
