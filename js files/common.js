@@ -145,23 +145,6 @@ function switchPlayer() {
   console.log("Switching player from ", currentPlayer); // Check current player
   currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
   console.log("New currentPlayer:", currentPlayer); // currentPlayer after the switch
-
-  if (playComputer) {
-    // If playing against the computer and it's the computer's turn
-    if (currentPlayer === playerTwo) {
-      console.log("Computer's turn after player");
-      if (inRound) {
-        setTimeout(() => {
-          console.log("setTimeout triggered, making computer move");
-          computerMove();
-        }, 1000);
-      }
-    }
-  } else {
-    // If playing against another human player
-    console.log(`${currentPlayer}'s turn now`);
-    updateGameText(`${currentPlayer}'s turn`);
-  }
 }
 
 // Update game text
