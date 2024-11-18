@@ -100,6 +100,12 @@ img {
 } */
 
 
+/** GENERAL MODAL STYLING **/
+.close-modal {
+  width: fit-content;
+  background: none;
+  border: none;
+}
 
 
 /** GAME TYPE MODAL **/
@@ -118,6 +124,7 @@ img {
   padding: 0;
 }
 
+/** GAME TYPE MODAL **/
 .modal-game-option-content {
   background-color: #fff;
   display: flex;
@@ -152,6 +159,18 @@ img {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+/** DIFFICULTY MODAL **/
+.modal-difficulty-level-content {
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 30px;
+  border: none;
+  border-radius: 8px;
+
 }
 
 

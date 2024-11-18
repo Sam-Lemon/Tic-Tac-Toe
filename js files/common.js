@@ -166,6 +166,8 @@ function updateGameText(text) {
 newGameButton.addEventListener("click", () => {
   resetGame();
   gameModeModal.style.display = "flex";
+  playerNameModal.style.display = "none";
+  difficultyModal.style.display = "none";
 });
 
 Array.from(closeModalButtons).forEach((button) => {

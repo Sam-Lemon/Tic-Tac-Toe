@@ -56,19 +56,23 @@
         </div>
       </main>
 
-      <section 
+      <section
         class="modal"
         id="game-mode-modal"
         aria-invalid="true"
         role="dialog"
         aria-labelledby="modal-title"
         tabindex="-1"
-        >
+      >
         <div class="modal-game-option-content">
           <button class="close-modal">X</button>
           <h3>Choose your mode:</h3>
-          <button class="game-button" id="play-friend-button">Play a Friend</button>
-          <button class="game-button" id="play-computer-button">Play the Computer</button>
+          <button class="game-button" id="play-friend-button">
+            Play a Friend
+          </button>
+          <button class="game-button" id="play-computer-button">
+            Play the Computer
+          </button>
         </div>
       </section>
 
@@ -84,7 +88,7 @@
           <button class="close-modal">X</button>
           <h3>Choose your name:</h3>
           <div class="form-group">
-            <label for="playerOneName">Player One:</label>
+            <label for="player-one-name">Player One:</label>
             <input
               type="text"
               id="player-one-name"
@@ -93,7 +97,7 @@
             />
           </div>
           <div class="form-group">
-            <label for="playerTwoName"> Player Two:</label>
+            <label for="player-two-name"> Player Two:</label>
             <input
               type="text"
               id="player-two-name"
@@ -101,10 +105,14 @@
               class="form-control"
             />
           </div>
-          <button class="game-button" id="submit-names-button">Submit Names</button>
+          <button class="game-button" id="submit-names-button">
+            Submit Names
+          </button>
           <div id="message"></div>
           <p>If you don't want to add names, just press Start Game</p>
-          <button class="game-button" id="start-pvp-game">Start PvP Game</button>
+          <button class="game-button" id="start-pvp-game">
+            Start PvP Game
+          </button>
         </div>
       </section>
 
@@ -119,8 +127,10 @@
         <div class="modal-difficulty-level-content">
           <button class="close-modal">X</button>
           <h2>Select Computer Difficulty</h2>
-          <button class="game-button" id="easy-mode">Easy</button>
-          <button class="game-button" id="hard-mode">Hard</button>
+          <div id="difficulty-buttons">
+            <button class="game-button" id="easy-mode">Easy</button>
+            <button class="game-button" id="hard-mode">Hard</button>
+          </div>
         </div>
       </section>
 

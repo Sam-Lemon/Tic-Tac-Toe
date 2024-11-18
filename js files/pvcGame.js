@@ -6,6 +6,7 @@ playComputerButton.addEventListener("click", () => {
     playComputer = true;
     console.log("playComputer: ", playComputer);
     
+    gameModeModal.style.display = "none";
     difficultyModal.style.display = "flex";
   });
   
@@ -14,7 +15,7 @@ playComputerButton.addEventListener("click", () => {
     difficulty = "easy";
     difficultyModal.style.display = "none";
     console.log("Player vs Computer - Easy Mode");
-    startGameWithComputer(); // Start game with computer
+    startEasyGameWithComputer(); // Start game with computer
     console.log("Easy game with computer started");
   });
   
@@ -23,6 +24,6 @@ playComputerButton.addEventListener("click", () => {
     difficulty = "hard";
     difficultyModal.style.display = "none";
     console.log("Player vs Computer - Hard Mode");
-    startGameWithComputer(); // Start game with computer
+    startHardGameWithComputer(); // Start game with computer
     console.log("Hard game with computer started");
   });

@@ -1,4 +1,4 @@
-/////////// EVENT LISTENERS ///////////
+/// EVENT LISTENERS ////
 
 // PvP Game Mode
 playFriendButton.addEventListener("click", () => {
@@ -21,6 +21,10 @@ startPvPGameButton.addEventListener("click", () => {
   startPvPGame();
 })
 
+
+/// GAME FUNCTIONS ////
+
+// Start game
 function startPvPGame() {
   boxes.forEach((box) => {
     box.addEventListener("click", handleBoxClick);
