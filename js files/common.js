@@ -97,7 +97,16 @@ function handleBoxClick(event) {
       switchPlayer(); // Switches to the other player
     }
   }
-}
+
+  if (playComputer && currentPlayer === playerTwo && inRound) {
+    console.log("Computer's turn after player");
+    setTimeout(() => {
+      console.log("setTimeout triggered, making computer move");
+      currentMoveFunction();
+    }, (1000));
+    }
+  }
+
 
 // Check for winner
 function checkWinner(mark) {
@@ -155,8 +164,16 @@ function switchPlayer() {
   }
 }
 
-function updateGameText(text) {
+// Update game text
+function updateGameText(text, isComputerThinking = false) {
   gameTextDiv.innerHTML = text;
+
+  if (isComputerThinking) {
+    gameTextDiv.classList.add("thinking");
+  } else {
+    gameTextDiv.classList.remove("thinking");
+  }
+
   console.log("Updating game text to: ", text);
 }
 
@@ -183,7 +200,6 @@ Array.from(closeModalButtons).forEach((button) => {
     }
   });
 });
-
 
 /////////// EFFECTS ///////////
 
