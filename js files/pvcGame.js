@@ -75,6 +75,7 @@ function startGameWithComputer() {
   updateGameText(`${playerOne}'s turn`);
 }
 
+// The computer's easy move
 function easyComputerMove() {
   console.log("Computer's Move in an easy game");
 
@@ -82,50 +83,55 @@ function easyComputerMove() {
     .map((value, index) => (value === "" ? index : null))
     .filter((index) => index !== null);
 
-    if (emptyCells.length > 0) {
-      const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+  if (emptyCells.length > 0) {
+    const randomIndex =
+      emptyCells[Math.floor(Math.random() * emptyCells.length)];
 
-      boxes[randomIndex].click();
-    } else {
-      console.error("No empty cells found which shouldn't happen in a valid game.");
-    }
-
+    boxes[randomIndex].click();
+  } else {
+    console.error(
+      "No empty cells found which shouldn't happen in a valid game."
+    );
+  }
 }
 
+// Minimax algorithm for the computer's hard move
+function minimax(board, depth, isMaximizing) {
+  const winner = checkWinnerForMinimax();
+  if (winner === playerOne) return -10; // Human player wins
+  if (winner === playerTwo) return +10; // AI wins
+  if (board.every((cell) => cell !== "")) return 0; // Tie
+
+  if (isMaximizing) {
+    let bestScore = -Infinity;
+    for (let i = 0; i < board.length; i++) {
+      if (board[i] === "") {
+        board[i] = playerTwoMark; // AI makes a move
+        let score = minimax(board, depth + 1, false); // Recurse
+        board[i] = ""; // Undo the move
+        bestScore = Math.max(score, bestScore);
+      }
+    }
+    return bestScore;
+  } else {
+    let bestScore = Infinity;
+    for (let i = 0; i < board.length; i++) {
+      if (board[i] === "") {
+        board[i] = playerOneMark; // Human player makes move
+        let score = minimax(board, depth + 1, true); // Recurse
+        board[i] = ""; // Undo move
+        bestScore = Math.min(score, bestScore);
+      }
+    }
+    return bestScore;
+  }
+}
+
+
+// The computer's hard move
 function hardComputerMove() {
   console.log("Computer's Move in an hard game");
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // // Computer move - Easy mode
 // function easyComputerMove() {
