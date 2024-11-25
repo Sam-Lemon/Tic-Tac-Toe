@@ -76,11 +76,26 @@ function startGameWithComputer() {
 }
 
 function easyComputerMove() {
-  console.log("Beginning easy game");
+  console.log("Computer's Move in an easy game");
+
+  const emptyCells = board
+    .map((value, index) => (value === "" ? index : null))
+    .filter((index) => index !== null);
+
+    if (emptyCells.length > 0) {
+      const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+
+      boxes[randomIndex].click();
+    } else {
+      console.error("No empty cells found which shouldn't happen in a valid game.");
+    }
+
 }
 
 function hardComputerMove() {
-  console.log("Beginning hard game");
+  console.log("Computer's Move in an hard game");
+
+
 }
 
 
