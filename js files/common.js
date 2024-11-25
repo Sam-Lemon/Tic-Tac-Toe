@@ -30,6 +30,7 @@ const submitNamesButton = document.getElementById("submit-names-button");
 
 // Game State
 let board = Array(NUM_CELLS).fill(""); // Initialize board with 9 spaces
+let currentMoveFunction;
 let currentPlayer = DEFAULT_PLAYER_NAMES[0];
 let difficulty = "easy"; // Default difficulty
 let inRound = false; // Initial status is not in a round
@@ -71,7 +72,7 @@ function resetGame() {
 
 // Handle box click
 function handleBoxClick(event) {
-  const clickedBox = event.target; // Using more descriptive variable
+  const clickedBox = event.target; 
   const index = Array.from(boxes).indexOf(clickedBox);
 
   if (inRound && board[index] === "") {
