@@ -38,8 +38,10 @@ let moveCount = 0;
 let playComputer = false;
 let playerOne = DEFAULT_PLAYER_NAMES[0];
 let playerOneMark = DEFAULT_MARKS[0];
+// let playerOneMark = "X";
 let playerTwo = DEFAULT_PLAYER_NAMES[1];
 let playerTwoMark = DEFAULT_MARKS[1];
+// let playerTwoMark = "O";
 
 // Winning Combinations
 const winningCombinations = [
@@ -52,6 +54,32 @@ const winningCombinations = [
   [0, 4, 8],
   [2, 4, 6], // Diagonals
 ];
+
+
+/////////// EVENT LISTENERS ///////////
+
+// Start new game button
+newGameButton.addEventListener("click", () => {
+  resetGame();
+  gameModeModal.style.display = "flex";
+  playerNameModal.style.display = "none";
+  difficultyModal.style.display = "none";
+});
+
+Array.from(closeModalButtons).forEach((button) => {
+  button.addEventListener("click", () => {
+    if (difficultyModal.style.display === "block" || "flex") {
+      difficultyModal.style.display = "none";
+    }
+    if (gameModeModal.style.display === "block" || "flex") {
+      gameModeModal.style.display = "none";
+    }
+    if (playerNameModal.style.display === "block" || "flex") {
+      playerNameModal.style.display = "none";
+    }
+  });
+});
+
 
 /////////// GAME FUNCTIONS ///////////
 
@@ -70,9 +98,10 @@ function resetGame() {
   console.log("Move count reset to 0");
 }
 
+
 // Handle box click
 function handleBoxClick(event) {
-  const clickedBox = event.target; 
+  const clickedBox = event.target;
   const index = Array.from(boxes).indexOf(clickedBox);
 
   if (inRound && board[index] === "") {
@@ -96,6 +125,7 @@ function handleBoxClick(event) {
     } else {
       console.log("Before switching player");
       switchPlayer(); // Switches to the other player
+      updateGameText(`${currentPlayer}'s turn`)
     }
   }
 
@@ -104,28 +134,34 @@ function handleBoxClick(event) {
     setTimeout(() => {
       console.log("setTimeout triggered, making computer move");
       currentMoveFunction();
-    }, (1000));
-    }
+    }, 1000);
   }
+}
 
+// Helper function that checks combinations
+function findWinningCombination(board, mark) {
+  console.log("Board:", board);
+  console.log("Mark:", mark);
+  return winningCombinations.find((combination) =>
+    combination.every((index) => board[index] === mark)
+  );
+}
 
 // Check for winner
 function checkWinner(mark) {
-  const winnerFound = winningCombinations.some((combination) => {
-    const isMatch = combination.every((index) => board[index] === mark);
-    if (isMatch) {
-      combination.forEach((index) =>
-        boxes[index].classList.add("winning-combination")
-      );
-    }
-    return isMatch;
-  });
+  const winningCombination = findWinningCombination(board, mark);
 
-  if (winnerFound) {
-    inRound = false; // Ends round if a winner is found
+  if (winningCombination) {
+    winningCombination.forEach((index) =>
+      boxes[index].classList.add("winning-combination")
+    );
+
+    inRound = false; // Ends round when winner found
     gameTextDiv.innerHTML = `${currentPlayer} wins!`;
+    return true;
   }
-  return winnerFound;
+
+  return false;
 }
 
 // Highlight the winning combination
@@ -161,29 +197,6 @@ function updateGameText(text, isComputerThinking = false) {
   console.log("Updating game text to: ", text);
 }
 
-/////////// EVENT LISTENERS ///////////
-
-// Start new game button
-newGameButton.addEventListener("click", () => {
-  resetGame();
-  gameModeModal.style.display = "flex";
-  playerNameModal.style.display = "none";
-  difficultyModal.style.display = "none";
-});
-
-Array.from(closeModalButtons).forEach((button) => {
-  button.addEventListener("click", () => {
-    if (difficultyModal.style.display === "block" || "flex") {
-      difficultyModal.style.display = "none";
-    }
-    if (gameModeModal.style.display === "block" || "flex") {
-      gameModeModal.style.display = "none";
-    }
-    if (playerNameModal.style.display === "block" || "flex") {
-      playerNameModal.style.display = "none";
-    }
-  });
-});
 
 /////////// EFFECTS ///////////
 

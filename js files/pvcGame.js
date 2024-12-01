@@ -1,24 +1,8 @@
-// // Imported functions
-// import {
-//     board,
-//     checkWinner,
-//     currentMoveFunction,
-//     currentPlayer,
-//     difficulty,
-//     difficultyModal,
-//     easyModeButton,
-//     gameModeModal,
-//     hardModeButton,
-//     moveCount,
-//     NUM_CELLS,
-//     playComputer,
-//     playComputerButton,
-//     playerOne,
-//     playerTwo,
-//     resetGame,
-//     switchPlayer,
-//     updateGameText
-// } from "./common.js";
+/// CONSTANTS & VARIABLES ///
+
+
+
+
 
 /// EVENT LISTENERS ///
 
@@ -27,6 +11,8 @@ playComputerButton.addEventListener("click", () => {
   resetGame();
   playComputer = true;
   console.log("playComputer: ", playComputer);
+
+  playerOne = DEFAULT_PLAYER_NAMES[0];
 
   gameModeModal.style.display = "none";
   difficultyModal.style.display = "flex";
@@ -75,6 +61,50 @@ function startGameWithComputer() {
   updateGameText(`${playerOne}'s turn`);
 }
 
+
+// PVC game function
+function handleComputerBoxClick(event) {
+  const clickedBox = event.target;
+  const index = Array.from(boxes).indexOf(clickedBox);
+
+  if (inRound && board[index] === "") {
+    const currentMark =
+      currentPlayer === playerOne ? playerOneMark : playerTwoMark;
+
+    // Place the mark on the board
+    board[index] = currentMark;
+    clickedBox.innerHTML = `<img src="${currentMark}" alt="${currentPlayer}'s mark">`;
+
+    moveCount++;
+    console.log("Move count:", moveCount);
+
+    if (checkWinner(currentMark)) {
+      gameTextDiv.innerHTML = `${currentPlayer} wins!`;
+      inRound = false;
+      highlightWinner(currentMark);
+    } else if (moveCount === NUM_CELLS) {
+      gameTextDiv.innerHTML = "It's a tie!";
+      inRound = false;
+    } else {
+      console.log("Before switching player");
+      switchPlayer(); // Switches to the other player
+      updateGameText(`${currentPlayer}'s turn`)
+    }
+  }
+
+  if (playComputer && currentPlayer === playerTwo && inRound) {
+    console.log("Computer's turn after player");
+    setTimeout(() => {
+      console.log("setTimeout triggered, making computer move");
+      currentMoveFunction();
+    }, 1000);
+  }
+
+
+}
+
+
+
 // The computer's easy move
 function easyComputerMove() {
   console.log("Computer's Move in an easy game");
@@ -95,103 +125,116 @@ function easyComputerMove() {
   }
 }
 
-// Minimax algorithm for the computer's hard move
-function minimax(board, depth, isMaximizing) {
-  const winner = checkWinnerForMinimax();
-  if (winner === playerOne) return -10; // Human player wins
-  if (winner === playerTwo) return +10; // AI wins
-  if (board.every((cell) => cell !== "")) return 0; // Tie
+// The computer's hard move
+function hardComputerMove() {
+  console.log("Computer's move in hard mode");
+  const bestMove = getBestMove(board, playerTwoMark);
 
-  if (isMaximizing) {
-    let bestScore = -Infinity;
-    for (let i = 0; i < board.length; i++) {
-      if (board[i] === "") {
-        board[i] = playerTwoMark; // AI makes a move
-        let score = minimax(board, depth + 1, false); // Recurse
-        board[i] = ""; // Undo the move
-        bestScore = Math.max(score, bestScore);
-      }
+  if (bestMove !== null) {
+    board[bestMove] = playerTwoMark;
+    console.log(`Placing computer mark at index ${bestMove}`);
+    console.log(`AI mark: ${playerTwoMark}`);
+    boxes[bestMove].innerHTML = `<img src="${playerTwoMark}" alt="AI's mark">`;
+    boxes[bestMove].removeEventListener("click", handleComputerBoxClick);
+
+    console.log(`Best move for AI is at index ${bestMove}`);
+    console.log("Updated board after AI move: ", board);
+
+    if (checkWinnerForMinimax(board, playerTwoMark)) {
+      console.log("AI wins!");
+      updateGameText("Computer wins!");
+      resetGame();
+      return;
     }
-    return bestScore;
-  } else {
-    let bestScore = Infinity;
-    for (let i = 0; i < board.length; i++) {
-      if (board[i] === "") {
-        board[i] = playerOneMark; // Human player makes move
-        let score = minimax(board, depth + 1, true); // Recurse
-        board[i] = ""; // Undo move
-        bestScore = Math.min(score, bestScore);
-      }
-    }
-    return bestScore;
+
+    // currentPlayer = playerOne;
+    switchPlayer();
+    console.log("Player switched");
+    console.log("inRound: ", inRound, "move")
   }
 }
 
+// Minimax algorithm for the computer's hard move
+function minimax(board, depth, isMaximizing) {
+  if (depth > 20) {
+    // Arbitrary failsafe depth
+    console.error("Failsafe triggered: Depth exceeded limit");
+    return 0;
+  }
 
-// The computer's hard move
-function hardComputerMove() {
-  console.log("Computer's Move in an hard game");
+  if (checkWinnerForMinimax(board, playerTwoMark)) {
+    console.log(`AI wins detected at depth ${depth}`);
+    return 10 - depth; // Human player wins
+  }
+  if (checkWinnerForMinimax(board, playerOneMark)) {
+    console.log(`Player wins detected at depth ${depth}`);
+    return depth - 10; // AI wins
+  }
+  if (board.every((cell) => cell !== "")) {
+    console.log("Tie detected");
+    return 0; // Tie
+  }
+
+  let bestScore = isMaximizing ? -Infinity : Infinity;
+
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] === "") {
+      board[i] = isMaximizing ? playerTwoMark : playerOneMark;
+      const score = minimax(board, depth + 1, !isMaximizing);
+      board[i] = "";
+
+      bestScore = isMaximizing
+        ? Math.max(score, bestScore)
+        : Math.min(score, bestScore);
+    }
+  }
+  return bestScore;
 }
 
-// // Computer move - Easy mode
-// function easyComputerMove() {
-//   console.log("Computer is thinking...");
-//   updateGameText("Computer is thinking...", true); // Show thinking effect
+function checkWinnerForMinimax(board, mark) {
+  console.log(
+    "checkWinnerForMinimax called with board: ",
+    board,
+    "and mark: ",
+    mark
+  );
 
-//   setTimeout(() => {
-//     const availableCells = board
-//       .map((cell, index) => (cell === "" ? index : null))
-//       .filter((index) => index !== null);
+  if (!Array.isArray(board) || board.length !== NUM_CELLS) {
+    console.log("Invalid board detected!");
+    return false; // Prevent unnecessary recursion
+  }
 
-//     if (availableCells.length > 0) {
-//       const randomIndex = Math.floor(Math.random() * availableCells.length);
-//       const move = availableCells[randomIndex];
-//       const currentMark = playerTwoMark; // Computer uses player two's mark
+  return winningCombinations.some((combination) => {
+    const result = combination.every((index) => {
+      const cell = board[index];
+      console.log(`Checking cell ${index}: ${cell} === ${mark}`);
+      return cell === mark;
+    });
+    console.log(`Combination ${combination} result: `, result);
+    return result;
+  });
+}
 
-//       // Update the board and UI
-//       board[move] = currentMark;
-//       boxes[
-//         move
-//       ].innerHTML = `<img src="${currentMark}" alt="Computer's mark">`;
+// Finding the best move
+function getBestMove(board, aiMark) {
+  let bestScore = -Infinity;
+  let move = null;
 
-//       moveCount++;
-//       console.log("Move count: ", moveCount);
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] === "") {
+      board[i] = aiMark; // AI makes a move
+      const score = minimax(board, 0, false); // Evaluate the move's score
+      board[i] = ""; // Undo the move
 
-//       if (checkWinner(currentMark)) {
-//         updateGameText(`${playerTwo} (Computer) wins!`);
-//         inRound = false;
-//       } else if (moveCount === NUM_CELLS) {
-//         updateGameText("It's a tie!");
-//         inRound = false;
-//       } else {
-//         updateGameText(`${playerOne}'s turn`);
-//         switchPlayer(); // Back to human player
-//       }
-//     }
-//   }, 1000); // Delay the computer's move
-// }
+      console.log(`Move at index ${i} has score ${score}`);
 
-// function hardComputerMove() {
-//   setTimeout(() => {
-//     const move = minimaxMove();
-//     const currentMark = playerTwoMark;
+      if (score > bestScore) {
+        bestScore = score;
+        move = i; // Storing the index of the best move
+      }
+    }
+  }
+  return move;
+}
 
-//     // Update the board and UI
-//     board[move] = currentMark;
-//     boxes[move].innerHTML = `<img src="${currentMark}" alt="Computer's mark">`;
 
-//     moveCount++;
-//     console.log("Move count: ", moveCount);
-
-//     if (checkWinner(currentMark)) {
-//       updateGameText(`${playerTwo} (Computer) wins!`);
-//       inRound = false;
-//     } else if (moveCount === NUM_CELLS) {
-//       updateGameText("It's a tie!");
-//       inRound = false;
-//     } else {
-//       updateGameText(`${playerOne}'s turn`);
-//       switchPlayer();
-//     }
-//   }, 1000);
-// }
