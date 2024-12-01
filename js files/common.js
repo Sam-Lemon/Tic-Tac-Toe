@@ -55,7 +55,6 @@ const winningCombinations = [
   [2, 4, 6], // Diagonals
 ];
 
-
 /////////// EVENT LISTENERS ///////////
 
 // Start new game button
@@ -80,7 +79,6 @@ Array.from(closeModalButtons).forEach((button) => {
   });
 });
 
-
 /////////// GAME FUNCTIONS ///////////
 
 // Reset game
@@ -94,10 +92,14 @@ function resetGame() {
 
   gameTextDiv.innerHTML = "";
   inRound = false;
+  playComputer = false;
   moveCount = 0;
+  playerOne = DEFAULT_PLAYER_NAMES[0];
+  playerTwo = DEFAULT_PLAYER_NAMES[1];
+  
+  console.log("Player names have been reset to: ", playerOne, ", ", playerTwo);
   console.log("Move count reset to 0");
 }
-
 
 // Handle box click
 function handleBoxClick(event) {
@@ -125,17 +127,17 @@ function handleBoxClick(event) {
     } else {
       console.log("Before switching player");
       switchPlayer(); // Switches to the other player
-      updateGameText(`${currentPlayer}'s turn`)
+      updateGameText(`${currentPlayer}'s turn`);
     }
   }
 
-  if (playComputer && currentPlayer === playerTwo && inRound) {
-    console.log("Computer's turn after player");
-    setTimeout(() => {
-      console.log("setTimeout triggered, making computer move");
-      currentMoveFunction();
-    }, 1000);
-  }
+  // if (playComputer && currentPlayer === playerTwo && inRound) {
+  //   console.log("Computer's turn after player");
+  //   setTimeout(() => {
+  //     console.log("setTimeout triggered, making computer move");
+  //     currentMoveFunction();
+  //   }, 1000);
+  // }
 }
 
 // Helper function that checks combinations
@@ -196,7 +198,6 @@ function updateGameText(text, isComputerThinking = false) {
 
   console.log("Updating game text to: ", text);
 }
-
 
 /////////// EFFECTS ///////////
 

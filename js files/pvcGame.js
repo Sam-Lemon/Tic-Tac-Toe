@@ -1,8 +1,7 @@
 /// CONSTANTS & VARIABLES ///
 
-
-
-
+let playerComputer = "Computer";
+let playerComputerMark = "X";
 
 /// EVENT LISTENERS ///
 
@@ -42,7 +41,7 @@ hardModeButton.addEventListener("click", () => {
 function startGameWithComputer() {
   // Enable the board and assign the correct player marks
   boxes.forEach((box) => {
-    box.addEventListener("click", handleBoxClick);
+    box.addEventListener("click", handlePVCBoxClick);
   });
 
   inRound = true;
@@ -51,19 +50,18 @@ function startGameWithComputer() {
   // Start the game based on selected difficulty
   if (difficulty === "easy") {
     console.log("Starting game in Easy mode.");
-    playComputer = true;
+
     currentMoveFunction = easyComputerMove; // Start the first move with easy mode
   } else if (difficulty === "hard") {
     console.log("Starting game in Hard mode.");
-    playComputer = true;
+
     currentMoveFunction = hardComputerMove; // Start the first move with hard mode
   }
   updateGameText(`${playerOne}'s turn`);
 }
 
-
 // PVC game function
-function handleComputerBoxClick(event) {
+function handlePVCBoxClick(event) {
   const clickedBox = event.target;
   const index = Array.from(boxes).indexOf(clickedBox);
 
@@ -88,7 +86,9 @@ function handleComputerBoxClick(event) {
     } else {
       console.log("Before switching player");
       switchPlayer(); // Switches to the other player
-      updateGameText(`${currentPlayer}'s turn`)
+      updateGameText(`${currentPlayer}'s turn`);
+      console.log("End of turn. Player switched, current player: ", currentPlayer);
+
     }
   }
 
@@ -99,11 +99,7 @@ function handleComputerBoxClick(event) {
       currentMoveFunction();
     }, 1000);
   }
-
-
 }
-
-
 
 // The computer's easy move
 function easyComputerMove() {
@@ -123,6 +119,8 @@ function easyComputerMove() {
       "No empty cells found which shouldn't happen in a valid game."
     );
   }
+  // console.log("End of turn. Player switched, current player: ", currentPlayer);
+
 }
 
 // The computer's hard move
@@ -148,9 +146,12 @@ function hardComputerMove() {
     }
 
     // currentPlayer = playerOne;
-    switchPlayer();
-    console.log("Player switched");
-    console.log("inRound: ", inRound, "move")
+    // switchPlayer();
+    // console.log("Player switched");
+    // console.log("inRound: ", inRound, "move");
+
+    // console.log("End of turn. Player switched, current player: ", currentPlayer);
+
   }
 }
 
@@ -236,5 +237,3 @@ function getBestMove(board, aiMark) {
   }
   return move;
 }
-
-
