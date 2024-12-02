@@ -7,7 +7,6 @@ let playerComputerMark = "X";
 
 // Play vs computer
 playComputerButton.addEventListener("click", () => {
-  resetGame();
   playComputer = true;
   console.log("playComputer: ", playComputer);
 
@@ -32,7 +31,6 @@ hardModeButton.addEventListener("click", () => {
   difficultyModal.style.display = "none";
   console.log("Player vs Computer - Hard Mode");
   startGameWithComputer(); // Start game with computer
-  console.log("Hard game with computer started");
 });
 
 /// GAME FUNCTIONS ///
@@ -67,7 +65,7 @@ function handlePVCBoxClick(event) {
 
   if (inRound && board[index] === "") {
     const currentMark =
-      currentPlayer === playerOne ? playerOneMark : playerTwoMark;
+      currentPlayer === playerOne ? playerOneMark : playerComputerMark;
 
     // Place the mark on the board
     board[index] = currentMark;
@@ -84,8 +82,8 @@ function handlePVCBoxClick(event) {
       gameTextDiv.innerHTML = "It's a tie!";
       inRound = false;
     } else {
-      console.log("Before switching player");
-      switchPlayer(); // Switches to the other player
+      console.log("Before switching player - PvC game");
+      switchPlayerPVC(); // Switches to the other player
       updateGameText(`${currentPlayer}'s turn`);
       console.log("End of turn. Player switched, current player: ", currentPlayer);
 
@@ -99,6 +97,13 @@ function handlePVCBoxClick(event) {
       currentMoveFunction();
     }, 1000);
   }
+}
+
+// Switch player turns
+function switchPlayerPVC() {
+  console.log("Switching player from current player: ", currentPlayer); // Check current player
+  currentPlayer = currentPlayer === playerOne ? playerComputer : playerOne;
+  console.log("New currentPlayer:", currentPlayer); // currentPlayer after the switch
 }
 
 // The computer's easy move
