@@ -37,11 +37,11 @@ let inRound = false; // Initial status is not in a round
 let moveCount = 0;
 let playComputer = false;
 let playerOne = DEFAULT_PLAYER_NAMES[0];
-let playerOneMark = DEFAULT_MARKS[0];
-// let playerOneMark = "X";
+// let playerOneMark = DEFAULT_MARKS[0];
+let playerOneMark = "X";
 let playerTwo = DEFAULT_PLAYER_NAMES[1];
-let playerTwoMark = DEFAULT_MARKS[1];
-// let playerTwoMark = "O";
+// let playerTwoMark = DEFAULT_MARKS[1];
+let playerTwoMark = "O";
 
 // Winning Combinations
 const winningCombinations = [
@@ -84,10 +84,12 @@ Array.from(closeModalButtons).forEach((button) => {
 // Reset game
 function resetGame() {
   board.fill("");
+  console.log("Board reset: ", board);
 
   boxes.forEach((box) => {
     box.classList.remove("winning-combination");
     box.textContent = "";
+    box.innerHTML = "";
   });
 
   gameTextDiv.innerHTML = "";
@@ -108,11 +110,11 @@ function handleBoxClick(event) {
 
   if (inRound && board[index] === "") {
     const currentMark =
-      currentPlayer === playerOne ? playerOneMark : playerTwoMark;
+      currentPlayer === playerOne ? "X" : "O";
 
     // Place the mark on the board
     board[index] = currentMark;
-    clickedBox.innerHTML = `<img src="${currentMark}" alt="${currentPlayer}'s mark">`;
+    renderMark(index, currentMark);
 
     moveCount++;
     console.log("Move count:", moveCount);
@@ -130,20 +132,29 @@ function handleBoxClick(event) {
       updateGameText(`${currentPlayer}'s turn`);
     }
   }
+}
 
-  // if (playComputer && currentPlayer === playerTwo && inRound) {
-  //   console.log("Computer's turn after player");
-  //   setTimeout(() => {
-  //     console.log("setTimeout triggered, making computer move");
-  //     currentMoveFunction();
-  //   }, 1000);
-  // }
+// Convert logical marks to images
+function renderMark(index, mark) {
+  const markImages = {
+    X: "images/pinkAlienCharacter.png",
+    O: "images/greenAlienCharacter.png",
+  };
+
+  console.log(`Mark received: ${mark}`);
+
+  if (!markImages[mark]) {
+    console.error (`Invalid mark: ${mark}`);
+    return;
+  }
+
+  boxes[index].innerHTML = `<img src="${markImages[mark]}" alt="${mark}">`;
 }
 
 // Helper function that checks combinations
 function findWinningCombination(board, mark) {
   console.log("Board:", board);
-  console.log("Mark:", mark);
+  // console.log("Mark:", mark);
   return winningCombinations.find((combination) =>
     combination.every((index) => board[index] === mark)
   );
@@ -197,6 +208,8 @@ function updateGameText(text, isComputerThinking = false) {
   }
 
   console.log("Updating game text to: ", text);
+  console.log("Board before marking: ", board);
+
 }
 
 /////////// EFFECTS ///////////
