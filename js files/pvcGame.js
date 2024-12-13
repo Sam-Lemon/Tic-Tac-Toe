@@ -2,16 +2,15 @@
 
 let playerComputer = "Computer";
 let playerComputerMark = "O";
-let playerPvCMark = "X";
 
 /// EVENT LISTENERS ///
 
 // Play vs computer
 playComputerButton.addEventListener("click", () => {
   playComputer = true;
-  console.log("playComputer: ", playComputer);
+  console.log("playComputer set to true at: ", new Date());
 
-  playerOne = "DEFAULT_PLAYER_NAMES[0]";
+  playerOne = "Player One";
 
   gameModeModal.style.display = "none";
   difficultyModal.style.display = "flex";
@@ -46,6 +45,10 @@ function startGameWithComputer() {
   inRound = true;
   currentPlayer = playerOne;
 
+  if (playComputer) {
+    playerTwo = playerComputer;
+  }
+
   // Start the game based on selected difficulty
   if (difficulty === "easy") {
     console.log("Starting game in Easy mode.");
@@ -73,7 +76,7 @@ function handlePVCBoxClick(event) {
 
     // Place the mark on the board
     board[index] = currentMark;
-    clickedBox.innerHTML = `<img src="${currentMark}" alt="${currentPlayer}'s mark">`;
+    renderMark(index, currentMark);
 
     console.log("Board after marking: ", board);
 
@@ -89,13 +92,15 @@ function handlePVCBoxClick(event) {
       inRound = false;
     } else {
       console.log("Before switching player - PvC game");
-      switchPlayerPVC(); // Switches to the other player
+      switchPlayer(); // Switches to the other player
       updateGameText(`${currentPlayer}'s turn`);
       console.log("Current player: ", currentPlayer);
     }
   }
 
   if (currentPlayer === playerComputer) {
+    updateGameText(`${playerComputer} is thinking...`, true);
+
     setTimeout(() => {
       if (difficulty === "easy") {
         easyComputerMove();
@@ -122,11 +127,11 @@ function handlePVCBoxClick(event) {
 }
 
 // Switch player turns
-function switchPlayerPVC() {
-  console.log("Switching player from current player: ", currentPlayer); // Check current player
-  currentPlayer = currentPlayer === playerOne ? playerComputer : playerOne;
-  console.log("New currentPlayer:", currentPlayer); // currentPlayer after the switch
-}
+// function switchPlayerPVC() {
+//   console.log("Switching player from current player: ", currentPlayer); // Check current player
+//   currentPlayer = currentPlayer === playerOne ? playerComputer : playerOne;
+//   console.log("New currentPlayer:", currentPlayer); // currentPlayer after the switch
+// }
 
 // The computer's easy move
 function easyComputerMove() {
@@ -140,19 +145,26 @@ function easyComputerMove() {
     const randomIndex =
       emptyCells[Math.floor(Math.random() * emptyCells.length)];
 
-    boxes[randomIndex].click();
-  } else {
-    console.error(
-      "No empty cells found which shouldn't happen in a valid game."
-    );
+    board[randomIndex] = playerComputerMark;
+
+    renderMark(randomIndex, playerComputerMark);
+
+    boxes[randomIndex].removeEventListener("click", handlePVCBoxClick);
+    switchPlayer();
+
+    console.log(`AI mark placed at index ${randomIndex}`);
+    console.log("Updated board after AI's move: ", board);
+
+    // console.log("End of turn. Player switched, current player: ", currentPlayer);
   }
-  // console.log("End of turn. Player switched, current player: ", currentPlayer);
 }
 
 // The computer's hard move
 
 // This function messes with the PvP game
 function hardComputerMove() {
+  console.log("Player computer mark in hard mode: ", playerComputerMark);
+
   if (!playComputer) return; // only running in PvC mode
   console.log("Computer's move in hard mode");
 
@@ -162,9 +174,11 @@ function hardComputerMove() {
     console.log(`Placing computer mark at index ${bestMove}`);
     board[bestMove] = playerComputerMark;
 
-    boxes[
-      bestMove
-    ].innerHTML = `<img src="${playerComputerMark}" alt="AI's mark">`;
+    renderMark(bestMove, playerComputerMark);
+    // boxes[
+    //   bestMove
+    // ].innerHTML = `<img src="${playerComputerMark === "O" ? "images/pinkAlienCharacter.png" : "images/greenAlienCharacter.png"}" alt="AI's mark">`;
+
     boxes[bestMove].removeEventListener("click", handlePVCBoxClick);
 
     console.log(`AI mark placed at index ${bestMove}`);
@@ -185,7 +199,7 @@ function hardComputerMove() {
     }
 
     console.log("Switching to player's turn");
-    currentPlayer = "Player One";
+    switchPlayer();
     updateGameText(`${currentPlayer}'s turn.`);
   } else {
     console.log("Invalid move by computer or corrupted board state");
@@ -194,10 +208,10 @@ function hardComputerMove() {
 
 // Minimax algorithm for the computer's hard move
 function minimax(board, depth, isMaximizing) {
-  console.log(
-    `Minimax called at depth ${depth}, isMaximizing: ${isMaximizing}`
-  );
-  console.log("Current board state: ", board);
+  // console.log(
+  //   `Minimax called at depth ${depth}, isMaximizing: ${isMaximizing}`
+  // );
+  // console.log("Current board state: ", board);
 
   // Bad cases
   if (checkWinnerForMinimax(board, playerComputerMark)) {
@@ -218,13 +232,13 @@ function minimax(board, depth, isMaximizing) {
   for (let i = 0; i < board.length; i++) {
     if (board[i] === "") {
       board[i] = isMaximizing ? playerComputerMark : playerOneMark;
-      console.log(
-        `Simulating move at index ${i} for ${isMaximizing ? "AI" : "Player"}`
-      );
+      // console.log(
+      //   `Simulating move at index ${i} for ${isMaximizing ? "AI" : "Player"}`
+      // );
 
       const score = minimax(board, depth + 1, !isMaximizing);
       board[i] = "";
-      console.log(`Backtracking from index ${i}, resetting the board`);
+      // console.log(`Backtracking from index ${i}, resetting the board`);
 
       bestScore = isMaximizing
         ? Math.max(score, bestScore)
@@ -239,7 +253,7 @@ function minimax(board, depth, isMaximizing) {
 function checkWinnerForMinimax(board, mark) {
   console.log(
     "checkWinnerForMinimax called with board: ",
-    board,
+    JSON.stringify(board),
     "and mark: ",
     mark
   );
@@ -249,13 +263,13 @@ function checkWinnerForMinimax(board, mark) {
     return false; // Prevent unnecessary recursion
   }
 
-  return winningCombinations.some((combination) => {
+  return winningCombinations.some((combination, combinationIndex) => {
     const result = combination.every((index) => {
       const cell = board[index];
       console.log(`Checking cell ${index}: ${cell} === ${mark}`);
       return cell === mark;
     });
-    console.log(`Combination ${combination} result: `, result);
+    console.log(`Combination ${JSON.stringify(combination)} result: `, result);
     return result;
   });
 }

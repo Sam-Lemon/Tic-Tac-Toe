@@ -17,8 +17,19 @@ submitNamesButton.addEventListener("click", () => {
   playerTwoInput.value = "";
 });
 
+resetNameButton.addEventListener("click", () => {
+  playerOne = DEFAULT_PLAYER_NAMES[0];
+  playerTwo = DEFAULT_PLAYER_NAMES[1];
+
+  message.innerHTML = "Player names reset to defaults!";
+
+  playerOneInput.value = "";
+  playerTwoInput.value = "";
+})
+
 startPvPGameButton.addEventListener("click", () => {
   startPvPGame();
+  playComputer = false;
 })
 
 

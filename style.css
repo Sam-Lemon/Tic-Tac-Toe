@@ -51,10 +51,6 @@ img {
   color: #333;
 }
 
-.close-button:hover {
-  color: red;
-}
-
 .game-button {
   background-color: #e3d1f4;
   color: #593977;
@@ -86,34 +82,11 @@ img {
 }
 
 
-/*****Side Bar*****/
-/* .sidebar {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 250px;
-  height: 100%;
-  background-color: #e3d1f470;
-  border: 2px solid #593977;
-  padding: 5px;
-  z-index: 10;
-} */
-
-
 /** GENERAL MODAL STYLING **/
-.close-modal {
-  width: fit-content;
-  background: none;
-  border: none;
-}
-
-
-/** GAME TYPE MODAL **/
 .modal {
   background-color: none;
+  color: #e3d1f4;
   display: none; /*Hidden by default*/
-  justify-content: center;
-  align-items: center;
   position: fixed;
   top: 0;
   left: 0;
@@ -124,25 +97,53 @@ img {
   padding: 0;
 }
 
-/** GAME TYPE MODAL **/
-.modal-game-option-content {
-  background-color: #fff;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  padding: 30px;
+.close-modal {
+  color: #e8daf5;
+  font-size: .9rem;
+  width: fit-content;
+  background: none;
   border: none;
-  border-radius: 8px;
+  align-self: flex-end;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+.close-modal:hover {
+  color: #b577f0;
+}
+
+.modal h3 {
+  color: #b577f0;
+  margin-bottom: 3px;
+  text-shadow: 1px 1px 1px;
+}
+
+.modal-game-option-content, 
+.modal-player-name-content,
+.modal-difficulty-level-content {
+  background-color: #593977;
   width: fit-content;
   height: fit-content;
+}
+
+/** GAME TYPE MODAL **/
+.modal-game-option-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  border: none;
+  border-radius: 8px;
   margin: auto;
 }
 
 /** PLAYER NAME MODAL **/
 .modal-player-name-content {
-  background-color: #fff;
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
   padding: 30px;
   border: none;
@@ -150,6 +151,7 @@ img {
 }
 
 .modal-player-name-content input {
+  background-color: #f0e5fa;
   width: 50%;
   margin: 5px;
 }

@@ -25,6 +25,7 @@ const playFriendButton = document.getElementById("play-friend-button");
 const playerNameModal = document.getElementById("player-name-modal");
 const playerOneInput = document.getElementById("player-one-name");
 const playerTwoInput = document.getElementById("player-two-name");
+const resetNameButton = document.getElementById("reset-names-button");
 const startPvPGameButton = document.getElementById("start-pvp-game");
 const submitNamesButton = document.getElementById("submit-names-button");
 
@@ -95,6 +96,7 @@ function resetGame() {
   gameTextDiv.innerHTML = "";
   inRound = false;
   playComputer = false;
+  console.log("playComputer reset to false at: ", new Date())
   moveCount = 0;
   playerOne = DEFAULT_PLAYER_NAMES[0];
   playerTwo = DEFAULT_PLAYER_NAMES[1];
@@ -138,17 +140,17 @@ function handleBoxClick(event) {
 function renderMark(index, mark) {
   const markImages = {
     X: "images/pinkAlienCharacter.png",
-    O: "images/greenAlienCharacter.png",
+    O: "images/greenAlienCharacter.png"
   };
 
   console.log(`Mark received: ${mark}`);
 
-  if (!markImages[mark]) {
-    console.error (`Invalid mark: ${mark}`);
-    return;
+  if (markImages[mark]) {
+    boxes[index].innerHTML = `<img src="${markImages[mark]}" alt="${mark}">`;
+  } else {
+    console.error (`Invalid mark received: ${mark}. Valid options are: ${Object.keys(markImages).join(", ")}`);
   }
 
-  boxes[index].innerHTML = `<img src="${markImages[mark]}" alt="${mark}">`;
 }
 
 // Helper function that checks combinations
