@@ -113,41 +113,41 @@ img {
   color: #b577f0;
 }
 
-.modal h3 {
+.modal h2 {
   color: #b577f0;
-  margin-bottom: 3px;
+  margin-bottom: .75rem;
   text-shadow: 1px 1px 1px;
 }
 
 .modal-game-option-content, 
 .modal-player-name-content,
 .modal-difficulty-level-content {
-  background-color: #593977;
-  width: fit-content;
-  height: fit-content;
-}
-
-/** GAME TYPE MODAL **/
-.modal-game-option-content {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: #593977;
+  box-shadow: 7.5px 5px 5px #464545;
+  width: fit-content;
+  height: fit-content;
   padding: 20px;
   border: none;
   border-radius: 8px;
   margin: auto;
 }
 
+#message {
+  margin-top: 1.5rem;
+}
+
+/** GAME TYPE MODAL **/
+.modal-game-option-content {
+
+}
+
 /** PLAYER NAME MODAL **/
 .modal-player-name-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 30px;
-  border: none;
-  border-radius: 8px;
+
 }
 
 .modal-player-name-content input {
@@ -161,17 +161,11 @@ img {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 /** DIFFICULTY MODAL **/
 .modal-difficulty-level-content {
-  background-color: #fff;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  padding: 30px;
-  border: none;
-  border-radius: 8px;
 
 }
 
