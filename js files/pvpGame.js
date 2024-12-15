@@ -3,7 +3,7 @@
 // PvP Game Mode
 playFriendButton.addEventListener("click", () => {
   playerNameModal.style.display = "flex";
-})
+});
 
 // Submit player names
 submitNamesButton.addEventListener("click", () => {
@@ -25,13 +25,13 @@ resetNameButton.addEventListener("click", () => {
 
   playerOneInput.value = "";
   playerTwoInput.value = "";
-})
+});
 
 startPvPGameButton.addEventListener("click", () => {
   startPvPGame();
   playComputer = false;
-})
-
+});
+// END OF EVENT LISTENERS ///
 
 /// GAME FUNCTIONS ////
 
@@ -47,3 +47,4 @@ function startPvPGame() {
   currentPlayer = playerOne;
   updateGameText(`${playerOne}'s turn`);
 }
+// END OF GAME FUNCTIONS
