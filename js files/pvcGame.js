@@ -51,12 +51,10 @@ function startGameWithComputer() {
 
   // Start the game based on selected difficulty
   if (difficulty === "easy") {
-    console.log("Starting game in Easy mode.");
-
+    // console.log("Starting game in Easy mode.");
     currentMoveFunction = easyComputerMove; // Start the first move with easy mode
   } else if (difficulty === "hard") {
     console.log("Starting game in Hard mode.");
-
     currentMoveFunction = hardComputerMove; // Start the first move with hard mode
   }
   updateGameText(`${playerOne}'s turn`);
@@ -64,7 +62,7 @@ function startGameWithComputer() {
 
 // PVC game function
 function handlePVCBoxClick(event) {
-  console.log("handlePVCBoxClick called");
+  // console.log("handlePVCBoxClick called");
 
   const clickedBox = event.target;
   const index = Array.from(boxes).indexOf(clickedBox);
@@ -87,6 +85,7 @@ function handlePVCBoxClick(event) {
       gameTextDiv.innerHTML = `${currentPlayer} wins!`;
       inRound = false;
       highlightWinner(currentMark);
+      launchFireworks()
     } else if (moveCount === NUM_CELLS) {
       gameTextDiv.innerHTML = "It's a tie!";
       inRound = false;
@@ -109,33 +108,12 @@ function handlePVCBoxClick(event) {
       }
     }, 2000);
   }
-
-  // if (inRound && currentPlayer === playerComputer) {
-  //   console.log("Computer's turn after player");
-  //   setTimeout(() => {
-  //     console.log("Difficulty is: ", difficulty);
-
-  //     if (difficulty === "easy") {
-  //       easyComputerMove();
-  //     } else if (difficulty === "hard") {
-  //       hardComputerMove();
-  //     } else {
-  //       console.error("Invalid difficulty level");
-  //     }
-  //   }, 1000);
-  // }
 }
 
-// Switch player turns
-// function switchPlayerPVC() {
-//   console.log("Switching player from current player: ", currentPlayer); // Check current player
-//   currentPlayer = currentPlayer === playerOne ? playerComputer : playerOne;
-//   console.log("New currentPlayer:", currentPlayer); // currentPlayer after the switch
-// }
 
 // The computer's easy move
 function easyComputerMove() {
-  console.log("Computer's Move in an easy game");
+  // console.log("Computer's Move in an easy game");
 
   const emptyCells = board
     .map((value, index) => (value === "" ? index : null))
@@ -152,18 +130,16 @@ function easyComputerMove() {
     boxes[randomIndex].removeEventListener("click", handlePVCBoxClick);
     switchPlayer();
 
-    console.log(`AI mark placed at index ${randomIndex}`);
-    console.log("Updated board after AI's move: ", board);
+    // console.log(`AI mark placed at index ${randomIndex}`);
+    // console.log("Updated board after AI's move: ", board);
 
     // console.log("End of turn. Player switched, current player: ", currentPlayer);
   }
 }
 
 // The computer's hard move
-
-// This function messes with the PvP game
 function hardComputerMove() {
-  console.log("Player computer mark in hard mode: ", playerComputerMark);
+  // console.log("Player computer mark in hard mode: ", playerComputerMark);
 
   if (!playComputer) return; // only running in PvC mode
   console.log("Computer's move in hard mode");
@@ -174,10 +150,13 @@ function hardComputerMove() {
     console.log(`Placing computer mark at index ${bestMove}`);
     board[bestMove] = playerComputerMark;
 
+    console.log(
+      `Calling renderMark with bestMove: ${bestMove}, mark: ${playerComputerMark}`
+    );
+
+    console.log("Before rendering mark: ", bestMove, playerComputerMark);
     renderMark(bestMove, playerComputerMark);
-    // boxes[
-    //   bestMove
-    // ].innerHTML = `<img src="${playerComputerMark === "O" ? "images/pinkAlienCharacter.png" : "images/greenAlienCharacter.png"}" alt="AI's mark">`;
+    console.log("After rendering mark>");
 
     boxes[bestMove].removeEventListener("click", handlePVCBoxClick);
 
@@ -187,6 +166,7 @@ function hardComputerMove() {
     if (checkWinnerForMinimax([...board], playerComputerMark)) {
       console.log("AI wins!");
       updateGameText("Computer wins!");
+      launchFireworks();
       resetGame();
       return;
     }
@@ -207,11 +187,16 @@ function hardComputerMove() {
 }
 
 // Minimax algorithm for the computer's hard move
-function minimax(board, depth, isMaximizing) {
-  // console.log(
-  //   `Minimax called at depth ${depth}, isMaximizing: ${isMaximizing}`
-  // );
-  // console.log("Current board state: ", board);
+function minimax(board, depth, isMaximizing, maxDepth = 4) {
+  console.log(
+    `Minimax called at depth ${depth}, isMaximizing: ${isMaximizing}`
+  );
+  console.log("Current board state: ", board);
+
+  if (depth === maxDepth) {
+    console.log(`Depth limit reached at depth ${depth}`);
+    return evaluateBoard(board, isMaximizing);
+  }
 
   // Bad cases
   if (checkWinnerForMinimax(board, playerComputerMark)) {
@@ -232,13 +217,13 @@ function minimax(board, depth, isMaximizing) {
   for (let i = 0; i < board.length; i++) {
     if (board[i] === "") {
       board[i] = isMaximizing ? playerComputerMark : playerOneMark;
-      // console.log(
-      //   `Simulating move at index ${i} for ${isMaximizing ? "AI" : "Player"}`
-      // );
+      console.log(
+        `Simulating move at index ${i} for ${isMaximizing ? "AI" : "Player"}`
+      );
 
-      const score = minimax(board, depth + 1, !isMaximizing);
+      const score = minimax(board, depth + 1, !isMaximizing, maxDepth);
       board[i] = "";
-      // console.log(`Backtracking from index ${i}, resetting the board`);
+      console.log(`Backtracking from index ${i}, resetting the board`);
 
       bestScore = isMaximizing
         ? Math.max(score, bestScore)
@@ -248,6 +233,12 @@ function minimax(board, depth, isMaximizing) {
 
   return bestScore;
 }
+
+function evaluateBoard (board, isMaximizing) {
+  console.log("Evaluating board heuristically");
+  return 0;
+}
+
 
 // Checking winner for minimax
 function checkWinnerForMinimax(board, mark) {
@@ -263,19 +254,18 @@ function checkWinnerForMinimax(board, mark) {
     return false; // Prevent unnecessary recursion
   }
 
-  return winningCombinations.some((combination, combinationIndex) => {
-    const result = combination.every((index) => {
-      const cell = board[index];
-      console.log(`Checking cell ${index}: ${cell} === ${mark}`);
-      return cell === mark;
+  return winningCombinations.some((combination) => {
+    const result = combination.every((index) => 
+      board[index] === mark);
+      console.log(`Checking combination ${JSON.stringify(combination)} result:`, result);
+      return result;
     });
-    console.log(`Combination ${JSON.stringify(combination)} result: `, result);
-    return result;
-  });
-}
+
+  };
 
 // Finding the best move
 function getBestMove(board, playerComputerMark) {
+  console.log("Called getBestMove");
   let bestScore = -Infinity;
   let move = null;
 

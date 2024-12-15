@@ -66,6 +66,7 @@ newGameButton.addEventListener("click", () => {
   difficultyModal.style.display = "none";
 });
 
+// Modals
 Array.from(closeModalButtons).forEach((button) => {
   button.addEventListener("click", () => {
     if (difficultyModal.style.display === "block" || "flex") {
@@ -91,6 +92,7 @@ function resetGame() {
     box.classList.remove("winning-combination");
     box.textContent = "";
     box.innerHTML = "";
+    box.removeEventListener("click", handlePVCBoxClick);
   });
 
   gameTextDiv.innerHTML = "";
@@ -150,7 +152,6 @@ function renderMark(index, mark) {
   } else {
     console.error (`Invalid mark received: ${mark}. Valid options are: ${Object.keys(markImages).join(", ")}`);
   }
-
 }
 
 // Helper function that checks combinations
