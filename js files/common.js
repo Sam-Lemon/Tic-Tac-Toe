@@ -38,10 +38,8 @@ let inRound = false; // Initial status is not in a round
 let moveCount = 0;
 let playComputer = false;
 let playerOne = DEFAULT_PLAYER_NAMES[0];
-// let playerOneMark = DEFAULT_MARKS[0];
 let playerOneMark = "X";
 let playerTwo = DEFAULT_PLAYER_NAMES[1];
-// let playerTwoMark = DEFAULT_MARKS[1];
 let playerTwoMark = "O";
 
 // Winning Combinations
@@ -55,6 +53,10 @@ const winningCombinations = [
   [0, 4, 8],
   [2, 4, 6], // Diagonals
 ];
+
+// Debugging
+const debug = true;
+const log = (...args) => debug && console.log(...args);
 
 /////////// EVENT LISTENERS ///////////
 
@@ -98,7 +100,6 @@ function resetGame() {
   gameTextDiv.innerHTML = "";
   inRound = false;
   playComputer = false;
-  console.log("playComputer reset to false at: ", new Date())
   moveCount = 0;
   playerOne = DEFAULT_PLAYER_NAMES[0];
   playerTwo = DEFAULT_PLAYER_NAMES[1];
@@ -131,7 +132,6 @@ function handleBoxClick(event) {
       gameTextDiv.innerHTML = "It's a tie!";
       inRound = false;
     } else {
-      console.log("Before switching player");
       switchPlayer(); // Switches to the other player
       updateGameText(`${currentPlayer}'s turn`);
     }
@@ -145,8 +145,6 @@ function renderMark(index, mark) {
     O: "images/greenAlienCharacter.png"
   };
 
-  console.log(`Mark received: ${mark}`);
-
   if (markImages[mark]) {
     boxes[index].innerHTML = `<img src="${markImages[mark]}" alt="${mark}">`;
   } else {
@@ -156,8 +154,6 @@ function renderMark(index, mark) {
 
 // Helper function that checks combinations
 function findWinningCombination(board, mark) {
-  console.log("Board:", board);
-  // console.log("Mark:", mark);
   return winningCombinations.find((combination) =>
     combination.every((index) => board[index] === mark)
   );

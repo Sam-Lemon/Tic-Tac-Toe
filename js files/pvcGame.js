@@ -51,7 +51,7 @@ function startGameWithComputer() {
 
   // Start the game based on selected difficulty
   if (difficulty === "easy") {
-    // console.log("Starting game in Easy mode.");
+    console.log("Starting game in Easy mode.");
     currentMoveFunction = easyComputerMove; // Start the first move with easy mode
   } else if (difficulty === "hard") {
     console.log("Starting game in Hard mode.");
@@ -119,7 +119,11 @@ function easyComputerMove() {
     .map((value, index) => (value === "" ? index : null))
     .filter((index) => index !== null);
 
-  if (emptyCells.length > 0) {
+  if (emptyCells.length === 0) {
+    console.log("No empty cells available for the computer to make a move.");
+    return;
+  }
+
     const randomIndex =
       emptyCells[Math.floor(Math.random() * emptyCells.length)];
 
@@ -129,12 +133,12 @@ function easyComputerMove() {
 
     boxes[randomIndex].removeEventListener("click", handlePVCBoxClick);
     switchPlayer();
+    updateGameText(currentPlayer + "'s turn.");
 
+    
     // console.log(`AI mark placed at index ${randomIndex}`);
     // console.log("Updated board after AI's move: ", board);
-
     // console.log("End of turn. Player switched, current player: ", currentPlayer);
-  }
 }
 
 // The computer's hard move
@@ -147,34 +151,32 @@ function hardComputerMove() {
   const bestMove = getBestMove([...board], playerComputerMark);
 
   if (bestMove !== null && board[bestMove] === "") {
-    console.log(`Placing computer mark at index ${bestMove}`);
+    // console.log(`Placing computer mark at index ${bestMove}`);
     board[bestMove] = playerComputerMark;
 
-    console.log(
-      `Calling renderMark with bestMove: ${bestMove}, mark: ${playerComputerMark}`
-    );
+    // console.log(
+    //   `Calling renderMark with bestMove: ${bestMove}, mark: ${playerComputerMark}`
+    // );
 
-    console.log("Before rendering mark: ", bestMove, playerComputerMark);
+    // console.log("Before rendering mark: ", bestMove, playerComputerMark);
     renderMark(bestMove, playerComputerMark);
-    console.log("After rendering mark>");
+    // console.log("After rendering mark>");
 
     boxes[bestMove].removeEventListener("click", handlePVCBoxClick);
 
-    console.log(`AI mark placed at index ${bestMove}`);
-    console.log("Updated board after AI's move: ", board);
+    // console.log(`AI mark placed at index ${bestMove}`);
+    // console.log("Updated board after AI's move: ", board);
 
     if (checkWinnerForMinimax([...board], playerComputerMark)) {
       console.log("AI wins!");
       updateGameText("Computer wins!");
-      launchFireworks();
-      resetGame();
+      highlightWinner();
       return;
     }
 
     if (board.every((cell) => cell !== "")) {
       console.log("It's a tie!");
       updateGameText("It's a tie!");
-      resetGame();
       return;
     }
 
