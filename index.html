@@ -20,7 +20,6 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
     />
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   </head>
   <body class="space-grotesk">
     <section class="wrapper">
@@ -28,22 +27,11 @@
         <h1>Tic-Tac-UFO</h1>
       </header>
 
-      <aside class="sidebar">
-        <!-- <section class="leader-board">
-          <h3>Leader Board</h3>
-          <div>
-            <ol>
-              <li>Winner</li>
-            </ol>
-          </div>
-        </section> -->
-      </aside>
-
       <main class="game">
         <button class="game-button" id="new-game">New Game</button>
         <h3 id="new-game-text"></h3>
 
-        <div class="game-board">
+        <section class="game-board">
           <div class="box" id="a" aria-label="game cell A"></div>
           <div class="box" id="b" aria-label="game cell B"></div>
           <div class="box" id="c" aria-label="game cell C"></div>
@@ -53,15 +41,13 @@
           <div class="box" id="g" aria-label="game cell G"></div>
           <div class="box" id="h" aria-label="game cell H"></div>
           <div class="box" id="i" aria-label="game cell I"></div>
-        </div>
+        </section>
       </main>
 
-      <section
+      <dialog
         class="modal"
         id="game-mode-modal"
-        aria-invalid="true"
         role="dialog"
-        aria-labelledby="modal-title"
         tabindex="-1"
       >
         <div class="modal-game-option-content">
@@ -74,14 +60,11 @@
             Play the Computer
           </button>
         </div>
-      </section>
+      </dialog>
 
-      <section
+      <dialog
         class="modal"
         id="player-name-modal"
-        aria-invalid="true"
-        role="dialog"
-        aria-labelledby="modal-title"
         tabindex="-1"
       >
         <div class="modal-player-name-content">
@@ -119,14 +102,11 @@
             Start PvP Game
           </button>
         </div>
-      </section>
+      </dialog>
 
-      <section
+      <dialog
         class="modal"
         id="difficulty-modal"
-        aria-modal="true"
-        role="dialog"
-        aria-labelledby="modal-title"
         tabindex="-1"
       >
         <div class="modal-difficulty-level-content">
@@ -137,13 +117,11 @@
             <button class="game-button" id="hard-mode">Hard</button>
           </div>
         </div>
-      </section>
+      </dialog>
 
-      <!-- <div class="ufo-container"></div> -->
     </section>
 
-    <script src="node_modules/jquery/dist/jquery.js"></script>
-    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script src="./js files/common.js"></script>
     <script src="./js files/pvpGame.js"></script>
     <script src="./js files//pvcGame.js"></script>
