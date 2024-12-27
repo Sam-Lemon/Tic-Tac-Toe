@@ -12,7 +12,7 @@ const DEFAULT_MARKS = [
 
 // UI Elements
 const boxes = document.querySelectorAll(".box");
-const closeModalButtons = document.getElementsByClassName("close-modal");
+const closeModalButtons = document.querySelectorAll(".close-modal");
 const difficultyModal = document.getElementById("difficulty-modal");
 const easyModeButton = document.getElementById("easy-mode");
 const gameModeModal = document.getElementById("game-mode-modal");
@@ -31,27 +31,22 @@ const submitNamesButton = document.getElementById("submit-names-button");
 
 // Game State
 let board = Array(NUM_CELLS).fill(""); // Initialize board with 9 spaces
-let currentMoveFunction;
-let currentPlayer = DEFAULT_PLAYER_NAMES[0];
-let difficulty = "easy"; // Default difficulty
-let inRound = false; // Initial status is not in a round
-let moveCount = 0;
-let playComputer = false;
-let playerOne = DEFAULT_PLAYER_NAMES[0];
-let playerOneMark = "X";
-let playerTwo = DEFAULT_PLAYER_NAMES[1];
-let playerTwoMark = "O";
+    currentMoveFunction;
+    currentPlayer = DEFAULT_PLAYER_NAMES[0];
+    difficulty = "easy"; // Default difficulty
+    inRound = false; // Initial status is not in a round
+    moveCount = 0;
+    playComputer = false;
+    playerOne = DEFAULT_PLAYER_NAMES[0];
+    playerOneMark = "X";
+    playerTwo = DEFAULT_PLAYER_NAMES[1];
+    playerTwoMark = "O";
 
 // Winning Combinations
 const winningCombinations = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8], // Rows
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8], // Columns
-  [0, 4, 8],
-  [2, 4, 6], // Diagonals
+  [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+  [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+  [0, 4, 8], [2, 4, 6], // Diagonals
 ];
 
 // Debugging
