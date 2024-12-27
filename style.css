@@ -12,6 +12,7 @@
   }
 }
 
+/*****Global Classes*****/
 body {
   box-sizing: border-box;
   margin: 0;
@@ -32,11 +33,24 @@ h3 {
 }
 
 img {
-  width: 80%; /* Adjusts proportionately to box */
-  max-width: 100px; /* Limits size on larger screens */
+  width: 80%; 
+  max-width: 100px; 
   max-height: 100%;
   object-fit: contain;
 }
+
+.space-grotesk {
+  font-family: "Space Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.wrapper {
+  min-height: 100vh;
+  background-color: #AD49E1;
+}
+
 
 /** BUTTONS **/
 .close-button {
@@ -68,25 +82,11 @@ img {
 }
 
 
-/*****Global Classes*****/
-.space-grotesk {
-  font-family: "Space Grotesk", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 300;
-  font-style: normal;
-}
-
-.wrapper {
-  min-height: 100vh;
-  background-color: #AD49E1;
-}
-
-
 /** GENERAL MODAL STYLING **/
 .modal {
-  background-color: none;
+  background: none;
   color: #e3d1f4;
-  display: none; /*Hidden by default*/
+  display: none; 
   position: fixed;
   top: 0;
   left: 0;
@@ -119,9 +119,7 @@ img {
   text-shadow: 1px 1px 1px;
 }
 
-.modal-game-option-content, 
-.modal-player-name-content,
-.modal-difficulty-level-content {
+.modal-modal-content {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -140,16 +138,6 @@ img {
   margin-top: 1.5rem;
 }
 
-/** GAME TYPE MODAL **/
-.modal-game-option-content {
-
-}
-
-/** PLAYER NAME MODAL **/
-.modal-player-name-content {
-
-}
-
 .modal-player-name-content input {
   background-color: #f0e5fa;
   width: 50%;
@@ -163,16 +151,6 @@ img {
   align-items: center;
   margin-bottom: 10px;
 }
-
-/** DIFFICULTY MODAL **/
-.modal-difficulty-level-content {
-
-}
-
-
-
-
-
 
 
 /** Game Board **/
@@ -211,57 +189,21 @@ img {
 .box {
   background-color: cyan;
   border: 3px solid black;
-  width: 100%; /* Adapts to parent size */
-  aspect-ratio: 1; /*Keeps box square*/
+  width: 100%; 
+  aspect-ratio: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 8vw; /* Responsive font size */
+  font-size: 8vw; 
   overflow: hidden;
   object-fit: contain;
 }
 
 .winning-combination {
   background-color: rgb(109, 233, 105);
-  /* background-color: rgb(244, 121, 203); */
   position: relative;
 }
 
-
-/*****UFO Effect*****/
-.ufo-container {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: -1;
-}
-
-.ufo {
-  position: absolute;
-  width: 50px;
-  height: 25px;
-  background-color: silver;
-  border-radius: 50% 50% 30% 30%;
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
-}
-
-@keyframes flyby {
-  from {
-    transform: translateX(-100%) translateY(0) rotate(0deg);
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  to {
-    transform: translateX(100vw) translateY(-20vh) rotate(10deg);
-    opacity: 0;
-  }
-}
 
 
 
