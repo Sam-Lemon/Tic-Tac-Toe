@@ -30,11 +30,11 @@ const startPvPGameButton = document.getElementById("start-pvp-game");
 const submitNamesButton = document.getElementById("submit-names-button");
 
 // Game State
-let board = Array(NUM_CELLS).fill(""); // Initialize board with 9 spaces
+let board = Array(NUM_CELLS).fill("");
 let currentMoveFunction;
 let currentPlayer = DEFAULT_PLAYER_NAMES[0];
-let difficulty = "easy"; // Default difficulty
-let inRound = false; // Initial status is not in a round
+let difficulty = "easy";
+let inRound = false;
 let moveCount = 0;
 let playComputer = false;
 let playerOne = DEFAULT_PLAYER_NAMES[0];
@@ -83,7 +83,7 @@ Array.from(closeModalButtons).forEach((button) => {
 // Reset game
 function resetGame() {
   board.fill("");
-  console.log("Board reset: ", board);
+  log("Board reset: ", board);
 
   boxes.forEach((box) => {
     box.classList.remove("winning-combination");
@@ -99,8 +99,8 @@ function resetGame() {
   playerOne = DEFAULT_PLAYER_NAMES[0];
   playerTwo = DEFAULT_PLAYER_NAMES[1];
   
-  console.log("Player names have been reset to: ", playerOne, ", ", playerTwo);
-  console.log("Move count reset to 0");
+  log("Player names have been reset to: ", playerOne, ", ", playerTwo);
+  log("Move count reset to 0");
 }
 
 // Handle box click
@@ -112,12 +112,11 @@ function handleBoxClick(event) {
     const currentMark =
       currentPlayer === playerOne ? "X" : "O";
 
-    // Place the mark on the board
     board[index] = currentMark;
     renderMark(index, currentMark);
 
     moveCount++;
-    console.log("Move count:", moveCount);
+    log("Move count:", moveCount);
 
     if (checkWinner(currentMark)) {
       gameTextDiv.innerHTML = `${currentPlayer} wins!`;
@@ -127,7 +126,7 @@ function handleBoxClick(event) {
       gameTextDiv.innerHTML = "It's a tie!";
       inRound = false;
     } else {
-      switchPlayer(); // Switches to the other player
+      switchPlayer(); 
       updateGameText(`${currentPlayer}'s turn`);
     }
   }
@@ -143,7 +142,7 @@ function renderMark(index, mark) {
   if (markImages[mark]) {
     boxes[index].innerHTML = `<img src="${markImages[mark]}" alt="${mark}">`;
   } else {
-    console.error (`Invalid mark received: ${mark}. Valid options are: ${Object.keys(markImages).join(", ")}`);
+    log(`Invalid mark received: ${mark}. Valid options are: ${Object.keys(markImages).join(", ")}`);
   }
 }
 
@@ -163,7 +162,7 @@ function checkWinner(mark) {
       boxes[index].classList.add("winning-combination")
     );
 
-    inRound = false; // Ends round when winner found
+    inRound = false; 
     gameTextDiv.innerHTML = `${currentPlayer} wins!`;
     return true;
   }
@@ -186,9 +185,9 @@ function highlightWinner(mark) {
 
 // Switch player turns
 function switchPlayer() {
-  console.log("Switching player from ", currentPlayer); // Check current player
+  log("Switching player from ", currentPlayer); 
   currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
-  console.log("New currentPlayer:", currentPlayer); // currentPlayer after the switch
+  log("New currentPlayer:", currentPlayer);
 }
 
 // Update game text
@@ -201,19 +200,29 @@ function updateGameText(text, isComputerThinking = false) {
     gameTextDiv.classList.remove("thinking");
   }
 
-  console.log("Updating game text to: ", text);
-  console.log("Board before marking: ", board);
+  log("Updating game text to: ", text);
+  log("Board before marking: ", board);
+}
 
+/////////// HELPER FUNCTIONS ///////////
+
+// Clear player inputs
+function clearPlayerInputs() {
+  playerOneInput.value = "";
+  playerTwoInput.value = "";
+}
+
+function updateMessage(text) {
+  message.innerHTML = text;
 }
 
 /////////// EFFECTS ///////////
 
 // Fireworks effect
 function launchFireworks() {
-  const duration = 3 * 1000; //Firework duration in milliseconds
+  const duration = 3 * 1000; 
   const end = Date.now() + duration;
 
-  //Generate random fireworks over the duration
   const interval = setInterval(function () {
     if (Date.now() > end) {
       clearInterval(interval);
@@ -224,10 +233,10 @@ function launchFireworks() {
       spread: 70,
       origin: {
         x: 0.5,
-        y: Math.random() * 0.6, //Random Y to keep fireworks mostly above mid screen
+        y: Math.random() * 0.6, 
       },
     });
-  }, 400); //Interval between fireworks bursts
+  }, 400); 
 
   setTimeout(() => {
     gameTextDiv.innerHTML = "Game Over!";

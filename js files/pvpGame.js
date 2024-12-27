@@ -1,3 +1,8 @@
+/// HELPER FUNCTIONS ////
+function updateMessage(text) {
+  message.innerHTML = text;
+}
+
 /// EVENT LISTENERS ////
 
 // PvP Game Mode
@@ -10,34 +15,31 @@ submitNamesButton.addEventListener("click", () => {
   playerOne = playerOneInput.value || DEFAULT_PLAYER_NAMES[0];
   playerTwo = playerTwoInput.value || DEFAULT_PLAYER_NAMES[1];
 
-  message.innerHTML = `Names updated! Ready to play, ${playerOne} and ${playerTwo}?`;
+  updateMessage(`Names updated! Ready to play, ${playerOne} and ${playerTwo}?`);
   gameModeModal.style.display = "none";
-
-  playerOneInput.value = "";
-  playerTwoInput.value = "";
+  clearPlayerInputs();
 });
 
 resetNameButton.addEventListener("click", () => {
   playerOne = DEFAULT_PLAYER_NAMES[0];
   playerTwo = DEFAULT_PLAYER_NAMES[1];
 
-  message.innerHTML = "Player names reset to defaults!";
-
-  playerOneInput.value = "";
-  playerTwoInput.value = "";
+  updateMessage("Player names reset to defaults!");
+  clearPlayerInputs();
 });
 
 startPvPGameButton.addEventListener("click", () => {
   startPvPGame();
   playComputer = false;
 });
-// END OF EVENT LISTENERS ///
+
 
 /// GAME FUNCTIONS ////
 
 // Start game
 function startPvPGame() {
   boxes.forEach((box) => {
+    box.removeEventListener("click", handleBoxClick)
     box.addEventListener("click", handleBoxClick);
   });
 
@@ -47,4 +49,3 @@ function startPvPGame() {
   currentPlayer = playerOne;
   updateGameText(`${playerOne}'s turn`);
 }
-// END OF GAME FUNCTIONS
