@@ -31,16 +31,16 @@ const submitNamesButton = document.getElementById("submit-names-button");
 
 // Game State
 let board = Array(NUM_CELLS).fill(""); // Initialize board with 9 spaces
-    currentMoveFunction;
-    currentPlayer = DEFAULT_PLAYER_NAMES[0];
-    difficulty = "easy"; // Default difficulty
-    inRound = false; // Initial status is not in a round
-    moveCount = 0;
-    playComputer = false;
-    playerOne = DEFAULT_PLAYER_NAMES[0];
-    playerOneMark = "X";
-    playerTwo = DEFAULT_PLAYER_NAMES[1];
-    playerTwoMark = "O";
+let currentMoveFunction;
+let currentPlayer = DEFAULT_PLAYER_NAMES[0];
+let difficulty = "easy"; // Default difficulty
+let inRound = false; // Initial status is not in a round
+let moveCount = 0;
+let playComputer = false;
+let playerOne = DEFAULT_PLAYER_NAMES[0];
+let playerOneMark = "X";
+let playerTwo = DEFAULT_PLAYER_NAMES[1];
+let playerTwoMark = "O";
 
 // Winning Combinations
 const winningCombinations = [
