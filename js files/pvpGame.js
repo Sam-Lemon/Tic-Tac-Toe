@@ -8,6 +8,7 @@ function updateMessage(text) {
 // PvP Game Mode
 playFriendButton.addEventListener("click", () => {
   playerNameModal.style.display = "flex";
+  gameModeModal.style.display = "none";
 });
 
 // Submit player names

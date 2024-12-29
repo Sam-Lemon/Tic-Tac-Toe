@@ -4,17 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tic-Tac-UFO</title>
+
     <link rel="stylesheet" href="./style.css" />
     <link
       rel="stylesheet"
       href="node_modules/bootstrap/dist/css/bootstrap.css"
     />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Slabo+27px&family=Space+Grotesk:wght@300..700&display=swap"
       rel="stylesheet"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Slabo+27px&family=Space+Grotesk:wght@300..700&family=Zen+Dots&display=swap"
+      rel="stylesheet"
+    />
+
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
@@ -24,12 +33,12 @@
   <body class="space-grotesk">
     <section class="wrapper">
       <header>
-        <h1>Tic-Tac-UFO</h1>
+        <h1 class="zen-dots-regular">Tic-Tac-UFO</h1>
       </header>
 
       <main class="game">
         <button class="game-button" id="new-game">New Game</button>
-        <h3 id="new-game-text"></h3>
+        <h3 class="zen-dots-regular" id="new-game-text"></h3>
 
         <section class="game-board">
           <div class="box" id="a" aria-label="game cell A"></div>
@@ -44,15 +53,10 @@
         </section>
       </main>
 
-      <dialog
-        class="modal"
-        id="game-mode-modal"
-        role="dialog"
-        tabindex="-1"
-      >
+      <div class="modal" id="game-mode-modal" role="dialog" tabindex="-1">
         <div class="modal-modal-content">
           <button class="close-modal">X</button>
-          <h2>Choose your mode:</h2>
+          <h2 class="zen-dots-regular">Choose your mode:</h2>
           <button class="game-button" id="play-friend-button">
             Play a Friend
           </button>
@@ -60,16 +64,12 @@
             Play the Computer
           </button>
         </div>
-      </dialog>
+      </div>
 
-      <dialog
-        class="modal"
-        id="player-name-modal"
-        tabindex="-1"
-      >
+      <div class="modal" id="player-name-modal" tabindex="-1">
         <div class="modal-modal-content">
           <button class="close-modal">X</button>
-          <h2>Choose your name:</h2>
+          <h2 class="zen-dots-regular">Choose your name:</h2>
           <div class="form-group">
             <label for="player-one-name">Player One:</label>
             <input
@@ -96,29 +96,29 @@
               Reset Names
             </button>
           </div>
-          <div id="message"></div>
-          <p>If you don't want to add names, just press Start Game</p>
+          <div id="message">
+            <p>
+              If you don't want to add names,
+              <br />
+              just press Start Game
+            </p>
+          </div>
           <button class="game-button" id="start-pvp-game">
             Start PvP Game
           </button>
         </div>
-      </dialog>
+      </div>
 
-      <dialog
-        class="modal"
-        id="difficulty-modal"
-        tabindex="-1"
-      >
+      <div class="modal" id="difficulty-modal" tabindex="-1">
         <div class="modal-modal-content">
           <button class="close-modal">X</button>
-          <h2>Select Difficulty</h2>
+          <h2 class="zen-dots-regular">Select Difficulty</h2>
           <div id="difficulty-buttons">
             <button class="game-button" id="easy-mode">Easy</button>
             <button class="game-button" id="hard-mode">Hard</button>
           </div>
         </div>
-      </dialog>
-
+      </div>
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>

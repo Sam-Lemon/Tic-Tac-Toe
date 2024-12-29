@@ -1,58 +1,101 @@
-
-@media (max-width: 768px) {
-  .box {
-    font-size: 10vw;
-  }
-  img {
-    width: 70%;
-    max-width: 80px;
-  }
-  .wrapper {
-    padding: 2vw;
-  }
+/***** Root Variables *****/
+:root {
+  --primary-bg: #fee2ea;
+  --secondary-bg: #980865;
+  --hover-bg: #eb9cc5;
+  --text-color: #b7358a;
+  --shadow-color: #fee2ea;
+  --highlight-color: rgba(109, 233, 105, 0.89);
+  --box-border-color: #762f90;
+  --modal-bg: #980866;
+  --header-shadow: 3px 3px 4px #c0b7f6;
 }
 
-/*****Global Classes*****/
+/***** Global Styles *****/
 body {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
   height: 100vh;
+  margin: 0 !important;
+  padding: 0 !important;
+  outline: none;
   z-index: auto;
-  background-color: #995bd2;
-} 
-
-header {
-  font-size: 3.5em;
-  font-weight: 700;
-}
-
-header,
-h3 {
-  text-align: center;
 }
 
 img {
-  width: 80%; 
-  max-width: 100px; 
+  width: 80%;
+  max-width: 100px;
   max-height: 100%;
   object-fit: contain;
 }
 
+.wrapper {
+  min-height: 100vh;
+  background-image: url("./images/galaxyBackground.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 2vw;
+  border: none;
+  outline: none;
+}
+
+/***** Fonts *****/
+.zen-dots-regular {
+  font-family: "Zen Dots", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
 .space-grotesk {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Space Grotesk", serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-style: normal;
 }
 
-.wrapper {
-  min-height: 100vh;
-  background-color: #AD49E1;
+/***** Buttons *****/
+.game-button {
+  width: fit-content;
+  background-color: var(--primary-bg);
+  color: var(--text-color);
+  border: 2px solid var(--secondary-bg);
+  border-radius: 5px;
+  text-shadow: 1px 1px 1px #fee2ea;
+  margin: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 
+.game-button:hover {
+  background-color: var(--hover-bg);
+  color: var(--shadow-color);
+  border: 2px dashed var(--secondary-bg);
+  text-shadow: 1px 1px 1px #221071;
+}
 
-/** BUTTONS **/
+#new-game {
+  display: grid;
+  box-shadow: 5px 5px 5px #232323;
+  width: fit-content;
+  background-color: #980866e3;
+  border: none;
+  border-radius: 8px;
+  color: #fee2ea;
+  font-size: 1.2em;
+  font-weight: 700;
+  letter-spacing: 0.1 px;
+  text-shadow: .5px .5px 1px #777677;
+  margin: auto;
+  padding: 5px 7px;
+  cursor: pointer;
+}
+
+#new-game:hover {
+  background-color: #eb9cc5cc;
+  color: #980866;
+  text-shadow: 1px 1px 1px #fee2ea;
+}
+
 .close-button {
   position: absolute;
   top: 10px;
@@ -62,61 +105,85 @@ img {
   font-size: 1.2rem;
   font-weight: bold;
   cursor: pointer;
-  color: #333;
 }
 
-.game-button {
-  background-color: #e3d1f4;
-  color: #593977;
-  border: 2px solid #995bd2;
-  border-radius: 5px;
-  cursor: pointer;
-  margin: 5px;
-  width: fit-content;
-}
-
-.game-button:hover {
-  background-color: #593977;
-  color: #e3d1f4;
-  border: 2px dashed #AD49E1;
-}
-
-
-/** GENERAL MODAL STYLING **/
-.modal {
-  background: none;
-  color: #e3d1f4;
-  display: none; 
-  position: fixed;
-  top: 0;
-  left: 0;
-  max-width: 100vw;
-  max-height: 100vh;
-  z-index: 1000;
-  margin: 0;
-  padding: 0;
-}
-
-.close-modal {
-  color: #e8daf5;
-  font-size: .9rem;
-  width: fit-content;
-  background: none;
+#start-pvp-game {
+  background-color: #eb9cc5;
   border: none;
-  align-self: flex-end;
-  padding: 0;
-  margin: 0;
-  margin-bottom: 5px;
+  box-shadow: 2px 2px 2px #221071;
+  color: #fee2ea;
+  font-size: 1.25em;
+  text-shadow: 1px 1px 1px #221071;
 }
 
-.close-modal:hover {
-  color: #b577f0;
+#start-pvp-game:hover {
+  background-color: #fee2ea;
+  color: #b7358a;
+  text-shadow: 1px 1px 1px #fee2ea;
 }
 
-.modal h2 {
-  color: #b577f0;
-  margin-bottom: .75rem;
-  text-shadow: 1px 1px 1px;
+/***** Game Board *****/
+header h1,
+.game h3 {
+  color: var(--shadow-color);
+  text-align: center;
+  text-shadow: 1px 1px 2px #c0b7fc;
+}
+
+header h1 {
+  font-size: 3em;
+  text-shadow: 3px 3px 4px #c0b7f6;
+  text-transform: capitalize;
+  margin-bottom: 15px;
+}
+
+.game h3 {
+  margin: 10px;
+}
+
+.game-board {
+  display: grid;
+  max-width: 400px;
+  background-color: #31136991;
+  border: 4px outset var(--box-border-color);
+  color: black;
+  grid-template-columns: repeat(3, 1fr);
+  aspect-ratio: 1;
+  margin: 0 auto;
+  gap: 5px;
+  padding: 10px;
+}
+
+.box {
+  background-color: #2a308bbe;
+  border: 3px inset var(--box-border-color);
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 8vw;
+  overflow: hidden;
+  object-fit: contain;
+}
+
+.winning-combination {
+  background-color: var(--highlight-color);
+  position: relative;
+}
+
+/***** Modals *****/
+.modal {
+  display: none;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  width: fit-content;
+  background: none;
+  color: #e3d1f4;
+  font-weight: 400;
+  outline: none;
+  z-index: 1000;
 }
 
 .modal-modal-content {
@@ -124,22 +191,32 @@ img {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: #593977;
-  box-shadow: 7.5px 5px 5px #464545;
   width: fit-content;
   height: fit-content;
-  padding: 20px;
+  background-color: var(--modal-bg);
   border: none;
   border-radius: 8px;
+  box-shadow: 5px 5px 5px #232323;
   margin: auto;
+  padding: 20px;
+}
+
+.modal h2 {
+  font-size: 2em;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: capitalize;
+  margin-bottom: 0.75rem;
 }
 
 #message {
-  margin-top: 1.5rem;
+  color: #e3d1f4;
+  text-align: center;
+  margin: 1.5rem 0;
 }
 
 .modal-player-name-content input {
-  background-color: #f0e5fa;
+  background-color: #fee2ea;
   width: 50%;
   margin: 5px;
 }
@@ -152,58 +229,32 @@ img {
   margin-bottom: 10px;
 }
 
-
-/** Game Board **/
-#new-game {
-  display: grid;
-  margin: auto;
-  padding: 5px 10px;
-  border: 2px solid #995bd2;
-  border-radius: 5px;
-  background-color: #e3d1f4;
-  color: #593977;
-  font-size: 1rem;
+.close-modal {
+  color: #e8daf5;
+  font-size: 0.9rem;
+  background: none;
+  border: none;
+  align-self: flex-end;
+  margin-bottom: 5px;
   cursor: pointer;
 }
 
-#new-game:hover {
-  background-color: #995bd2;
-  border-color: #e3d1f4;
-  color: #e3d1f4;
+.close-modal:hover {
+  color: #464545;
 }
 
-.game-board {
-  width: 90vw; 
-  max-width: 500px; 
-  aspect-ratio: 1; 
-  margin: 0 auto;
-  border: 4px groove black;
-  background-color: darkcyan;
-  color: black;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 5px;
-  padding: 10px;
+/***** Media Queries *****/
+@media (max-width: 768px) {
+  .box {
+    font-size: 10vw;
+  }
+  img {
+    width: 70%;
+    max-width: 80px;
+  }
+  .wrapper {
+    padding: 2vw;
+    max-width: 100vw;
+    max-height: 100vh;
+  }
 }
-
-.box {
-  background-color: cyan;
-  border: 3px solid black;
-  width: 100%; 
-  aspect-ratio: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 8vw; 
-  overflow: hidden;
-  object-fit: contain;
-}
-
-.winning-combination {
-  background-color: rgb(109, 233, 105);
-  position: relative;
-}
-
-
-
-
